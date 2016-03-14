@@ -1,6 +1,6 @@
 # TIPE_2017
 
-Problématiqe
+Problématique
 ============
 Comment peut on appliquer des mécanismes déisionels et
 d'apprentissages à un algorithme permettant de jouer à
