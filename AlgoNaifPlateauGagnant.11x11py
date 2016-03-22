@@ -26,6 +26,7 @@ def cellProxy (L, cellule): # L = taille du plateau, cellule = [Ligne, colonne]
     if k == L-1 :
         return [[n-1, k], [n, k-1], [n+1, k-1], [n+1, k]]
     return [[n-1, k], [n-1, k+1], [n, k-1], [n, k+1], [n+1, k-1], [n+1, k]]
+    
 ##Valeur d'une cellule
 
 def valeur(plateau, cellule):
@@ -59,6 +60,7 @@ def posDeparts (plateau, couleur):
     return Sortie
 
 ## Cases valides finales
+
 def casesArivee (plateau, couleur):
     Sortie = []
     L = len(plateau)-1
@@ -72,7 +74,7 @@ def casesArivee (plateau, couleur):
                 Sortie.append([L,k])
     return Sortie
 
-##pos2 OP
+##Parcours 
 
 
 def posGagnante(plateau, couleur):
@@ -97,7 +99,9 @@ def __posGagnante (plateau, couleur, tableau, cellule):
 
         
 
-## générer plateau 
+## générer plateau 11x11
+
+
 Plateau=[ [ 0 for _ in range (11)] for _ in range (11)]
 from random import randint
 
