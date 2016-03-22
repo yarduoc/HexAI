@@ -74,7 +74,6 @@ def casesArivee (plateau, couleur):
 
 ##pos2 OP
 
-Tableau = [[0 for _ in range(5)] for _ in range (5)]
 
 def posGagnante(plateau, couleur):
     L = len(plateau)
@@ -99,12 +98,12 @@ def __posGagnante (plateau, couleur, tableau, cellule):
         
 
 ## générer plateau 
-Plateau=[ [ 0 for _ in range (5)] for _ in range (5)]
+Plateau=[ [ 0 for _ in range (11)] for _ in range (11)]
 from random import randint
 
 couleurbis=ROUGE
 
-for _ in range (25):
+for _ in range (121):
     libre=False
      
     while libre==False :
@@ -114,8 +113,8 @@ for _ in range (25):
         else :
             couleurbis=ROUGE    
         
-        x=randint(0,4)
-        y=randint(0,4)
+        x=randint(0,10)
+        y=randint(0,10)
          
         if Plateau[x][y]==0:
             libre=True
