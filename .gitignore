@@ -1,0 +1,3 @@
+#Caml object and interface files
+*.zi
+*.zo
