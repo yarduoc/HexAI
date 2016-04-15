@@ -1,3 +1,7 @@
 #Caml object and interface files
 *.zi
 *.zo
+
+#Vim swap files
+*.swp
+*.swo
