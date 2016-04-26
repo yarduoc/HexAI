@@ -1,4 +1,7 @@
 #open "hex";;
+#open "board";;
+#open "hextile";;
+#open "player";;
 
 let matrix size = 
     let mat = make_vect size (make_vect 0 Empty) in
@@ -27,32 +30,20 @@ let generate_board size =
     board
 ;;
 
-let print_board board =
-    for i = 0 to board.size - 1  do
-        for j = 0 to board.size - 1 do
-            match board.tiles.(i).(j) with
-                | Blue -> print_string "Blue  "
-                | Red -> print_string "Red   "
-                | Empty -> print_string "Empty ";
-        done;
-        print_newline ()
-    done
-;;
-
-let main () =
-    print_string "Since Caml doesn't provide multi-platform time function \
-        you have to enter a fucking seed yourself\n";
-    random__init (read_int ());
-    let board = generate_board 5 in
+let main () = 
+	let board = {size=3; tiles=(matrix 3)} in
     begin
-        print_board board;
-        match (winner board) with
-            | Blue -> print_string "Blue"
-            | Red -> print_string "Red"
-            | Empty -> print_string "What the fuck is this shit Oo";
-        print_newline ()
+        set_tile_color board Red {x=0; y=2};
+        set_tile_color board Blue {x=2; y=2};
+        set_tile_color board Red {x=0; y=1};
+        set_tile_color board Blue {x=1; y=1};
+        set_tile_color board Red {x=1; y=0};
+        set_tile_color board Blue {x=0; y=1};
+        set_tile_color board Red {x=2; y=1};
+        print_tile (what_play board Blue)
     end
 ;;
+	
 
 printexc__f main ();;
 
