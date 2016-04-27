@@ -15,6 +15,8 @@ let ngh_tiles board tile =
 ;;
 
 let color_ngh_tiles board tile =
+    (* Renvoie les case adjaçante à une case `tile` qui sont de la même 
+        couleur que la case `tile` sur le plateau `board`*)
     let good_color = (is_color board (tile_color board tile)) in
     let is_ngh_and_color = (all_pred [(is_on_board board); good_color]) in
     filter is_ngh_and_color (map (add tile) connections)
