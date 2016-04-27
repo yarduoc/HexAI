@@ -1,6 +1,6 @@
 ##
 import os
-os.chdir('C:\\Users\\Tibo\\Documents\\MPSI Info\\TIPE')
+os.chdir('C:\\Users\\Tibo\\Documents\\MPSI Info\\TIPE\\PYTHON')
 
 import AlgoNaifPlateauGagnant
 
@@ -68,7 +68,7 @@ def minmax (plateau, couleur):
     return autreCouleur(couleur)
     
 T=platGen(3)
-
+Y = platGen(3)
 def premierCoup(T, couleur):
     for x in range(len(T)):
         for y in range(len(T)):
@@ -78,7 +78,11 @@ def premierCoup(T, couleur):
                     T[x][y]=0
                     return [x,y]
                 T[x][y]=0
-    return "t'as perdu lol"
+                
+    for x in range(len(T)) :
+        for y in range(len(T)) :
+            if T[x][y] == 0 :
+                return [x,y]
     
                 
                 
@@ -93,6 +97,6 @@ for x in range(len(T)):
 ##
 
 
-
+## bite
 
 
