@@ -1,4 +1,5 @@
 let rec filter prd lst =
+    (* Renvoie la liste des élément verifiant le predicat `prd`*)
     match lst with
         | [] -> []
         | x::rlst when prd x -> x::(filter prd rlst)
@@ -6,13 +7,14 @@ let rec filter prd lst =
 ;;
 
 let rec map f lst =
+    (* Applique f à tout les élément de la liste *)
     match lst with
         | [] -> []
         | x::rlst -> (f x)::(map f rlst)
 ;;
 
 let rec list_it f a lst =
-    (* Si lst = [a1; ... an], renvoit f( a1 f( ... f( a2 a) ) ) *)
+    (* Si lst = [a1; ... an], renvoit f( a1 f( ... f( an a) ) ) *)
     match lst with
         | [] -> a
         | x::rlst -> f x (list_it f a lst)
@@ -40,11 +42,12 @@ let rec is_in lst x =
         | _::rlst -> is_in rlst x
 ;;
 
-let rec find_if pred default lst =
+let rec find_if prd default lst =
+    (* Renvoie le premier élément verifiant `prd` ou default si aucun *)
     match lst with
         | [] -> default
-        | x::rlst when pred x -> x
-        | _::rlst -> find_if pred default rlst
+        | x::rlst when prd x -> x
+        | _::rlst -> find_if prd default rlst
 ;;
 
 let rec im_and_ant f lst =
