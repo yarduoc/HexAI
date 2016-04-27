@@ -25,6 +25,8 @@ let is_color board color tile = (color = (tile_color board tile));;
 
 
 let tile_of_color board color =
+    (* Renvoie la liste des coordonée des case de couleur `color` sur
+        le plateau `board` *)
     let rec aux tile =
         match tile with
             | {x=(-1); y=_} -> []
