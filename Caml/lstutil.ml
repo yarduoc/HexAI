@@ -46,3 +46,9 @@ let rec find_if pred default lst =
         | x::rlst when pred x -> x
         | _::rlst -> find_if pred default rlst
 ;;
+
+let rec im_and_ant f lst =
+    match lst with
+        | [] -> []
+        | x::rlst -> (f x, x)::(im_and_ant f rlst)
+;;
