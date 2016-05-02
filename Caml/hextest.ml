@@ -33,14 +33,7 @@ let generate_board size =
 let main () = 
 	let board = {size=3; tiles=(matrix 3)} in
     begin
-        set_tile_color board Red {x=0; y=2};
-        set_tile_color board Blue {x=2; y=2};
-        set_tile_color board Red {x=0; y=1};
-        set_tile_color board Blue {x=1; y=1};
-        set_tile_color board Red {x=1; y=0};
-        set_tile_color board Blue {x=0; y=1};
-        set_tile_color board Red {x=2; y=1};
-        print_tile (what_play board Blue)
+        print_tile (best_play board Blue)
     end
 ;;
 	

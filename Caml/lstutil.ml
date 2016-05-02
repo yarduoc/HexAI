@@ -6,18 +6,31 @@ let rec filter prd lst =
         | _::rlst -> (filter prd rlst)
 ;;
 
-let rec map f lst =
-    (* Applique f à tout les élément de la liste *)
-    match lst with
-        | [] -> []
-        | x::rlst -> (f x)::(map f rlst)
+let renverser lst =
+    let rec aux lst sor =
+        match lst with
+            | [] -> sor
+            | x::rlst -> aux rlst (x::sor)
+    in
+    aux lst []
 ;;
+
+let map f lst =
+    (* Applique f à tout les élément de la liste *)
+    let rec aux f lst sor =
+        match lst with
+            | [] -> sor
+            | x::rlst -> (aux f rlst ((f x)::sor))
+    in
+    renverser (aux f lst [])
+;;
+
 
 let rec list_it f a lst =
     (* Si lst = [a1; ... an], renvoit f( a1 f( ... f( an a) ) ) *)
     match lst with
         | [] -> a
-        | x::rlst -> f x (list_it f a lst)
+        | x::rlst -> f x (list_it f a rlst)
 ;;
 
 let rec app_suc f a n =
@@ -54,4 +67,17 @@ let rec im_and_ant f lst =
     match lst with
         | [] -> []
         | x::rlst -> (f x, x)::(im_and_ant f rlst)
+;;
+
+let rec max grtr lst =
+    (* Renvoie le maximum de tel que {a > b <=> grtr a b} *)
+    let rec aux cmax lst =
+        match lst with
+            | [] -> cmax
+            | x::rlst when grtr x cmax -> aux x rlst
+            | _::rlst -> aux cmax rlst
+    in
+    match lst with
+        | [] -> raise (Failure "Empty list has no max")
+        | x::rlst -> aux x rlst
 ;;
