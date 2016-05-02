@@ -116,7 +116,7 @@ for _ in range (121):
         x=randint(0,10)
         y=randint(0,10)
          
-        if Plateau[x][y]==0:
+        if Plateau[x][y]== VIDE :
             libre=True
             Plateau[x][y]=couleurbis
             
