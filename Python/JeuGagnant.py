@@ -32,7 +32,7 @@ for _ in range (121):
         x=randint(0,10)
         y=randint(0,10)
          
-        if plateau[x][y]==0:
+        if plateau[x][y]==VIDE:
             libre=True
             plateau[x][y]=couleurbis
 
@@ -51,20 +51,45 @@ def minmax (plateau, couleur):
         
         for y in range(len(plateau[0])) :
             
-            if plateau[x][y] == 0 :
+            if plateau[x][y] == VIDE :
                 
                 plateau[x][y] = couleur
                 plein = False
                     
                 if minmax (plateau, autreCouleur(couleur)) == couleur :
-                    plateau[x][y] = 0
+                    plateau[x][y] = VIDE
                     return couleur
-                plateau[x][y] = 0
+                plateau[x][y] = VIDE
                 
     if plein and posGagnante(plateau, couleur):
             return couleur
     return autreCouleur(couleur)
     
+##
+
+def premierCoup(T, couleur):
+    
+    for x in range(len(T)):
+        
+        for y in range(len(T)):
+            
+            if T[x][y] == VIDE :
+                
+                T[x][y]=couleur
+                
+                if minmax(T,autreCouleur(couleur)) == couleur:
+                    
+                    T[x][y] = VIDE
+                    return [x,y]
+                    
+                T[x][y] = VIDE
+                
+    for x in range(len(T)) :
+        for y in range(len(T)) :
+            if T[x][y] == VIDE :
+                return [x,y]
+                
+                
 
 ## J2
 
@@ -83,6 +108,7 @@ def minmaxPond (plateau, couleur):
                 plein = False
                     
                 littleBigNode = minmaxPond (plateau, autreCouleur(couleur))
+                
                 valeurNode[1] += littleBigNode[1]
                 valeurNode[2] += littleBigNode[2]
                 if littleBigNode[0] == couleur :
@@ -101,33 +127,40 @@ def minmaxPond (plateau, couleur):
     return valeurNode
     
     
+##
+
+def premCaseNonVide (plateau):
+    for x in range (len(plateau)):
+        for y in range (len(plateau)):
+            if plateau[x][y] == VIDE:
+                return [x, y]
+    
+##
+
+def meilleurCoup (plateau, couleur):
+    maxNodesGagnantes = 0
+    meilleurePos = premCaseNonVide(plateau)
+        
+    for x in range (len(plateau)):
+        for y in range (len(plateau)):
+            if plateau[x][y] == VIDE :
+                plateau[x][y] = couleur
+                Node = minmaxPond(plateau, autreCouleur(couleur))
+                plateau[x][y] = VIDE
+                if Node[0] == couleur :
+                    return [x, y]
+                if Node[couleur] > maxNodesGagnantes :
+                    maxNodesGagnantes = Node[couleur]
+                    meilleurePos = [x,y]
+                
+    return meilleurePos
+                
+ ## platgen
+    
 T = platGen(3)
 
 Y = platGen(3)
 
 
-
-def premierCoup(T, couleur):
     
-    for x in range(len(T)):
-        
-        for y in range(len(T)):
-            
-            if T[x][y]==0:
-                
-                T[x][y]=couleur
-                
-                if minmax(T,autreCouleur(couleur)) == couleur:
-                    
-                    T[x][y] = VIDE
-                    return [x,y]
-                    
-                T[x][y] = VID
-                
-    for x in range(len(T)) :
-        for y in range(len(T)) :
-            if T[x][y] == VIDE :
-                return [x,y]
-    
-## J2
 
