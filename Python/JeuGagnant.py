@@ -43,9 +43,9 @@ def autreCouleur (couleur):
         return ROUGE
     return BLEU
 
-## minmax
+## minimax
 
-def minmax (plateau, couleur):
+def minimax (plateau, couleur):
     plein = True
     for x in range (len(plateau[0])):
         
@@ -56,7 +56,7 @@ def minmax (plateau, couleur):
                 plateau[x][y] = couleur
                 plein = False
                     
-                if minmax (plateau, autreCouleur(couleur)) == couleur :
+                if minimax (plateau, autreCouleur(couleur)) == couleur :
                     plateau[x][y] = VIDE
                     return couleur
                 plateau[x][y] = VIDE
@@ -77,7 +77,7 @@ def premierCoup(T, couleur): #Renvoie le meilleur premier coup
                 
                 T[x][y]=couleur
                 
-                if minmax(T,autreCouleur(couleur)) == couleur:
+                if minimax(T,autreCouleur(couleur)) == couleur:
                     
                     T[x][y] = VIDE
                     return [x,y]
@@ -93,7 +93,7 @@ def premierCoup(T, couleur): #Renvoie le meilleur premier coup
 
 ## J2
 
-def minmaxPond (plateau, couleur):
+def minimaxPond (plateau, couleur):
     plein = True
     valeurNode = [autreCouleur(couleur), 0, 0]
     
@@ -107,7 +107,7 @@ def minmaxPond (plateau, couleur):
                 plateau[x][y] = couleur
                 plein = False
                     
-                littleBigNode = minmaxPond (plateau, autreCouleur(couleur))
+                littleBigNode = minimaxPond (plateau, autreCouleur(couleur))
                 
                 valeurNode[1] += littleBigNode[1]
                 valeurNode[2] += littleBigNode[2]
@@ -145,7 +145,7 @@ def meilleurCoup (plateau, couleur): #renvoie le meilleur coup
         for y in range (len(plateau)):
             if plateau[x][y] == VIDE :
                 plateau[x][y] = couleur
-                Node = minmaxPond(plateau, autreCouleur(couleur))
+                Node = minimaxPond(plateau, autreCouleur(couleur))
                 plateau[x][y] = VIDE
                 if Node[0] == couleur :
                     return [x, y]
