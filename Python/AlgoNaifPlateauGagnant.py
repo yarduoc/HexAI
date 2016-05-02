@@ -6,38 +6,39 @@ ROUGE = 2
 
 ##Cases valides autours
 
-def cellProxy (L, cellule): # L = taille du plateau, cellule = [Ligne, colonne]
-    n = cellule[0] #Ligne de la cellule
-    k = cellule[1] #Colonne de la cellule
-    if n == 0 :
-        if k == 0 :
-            return [[n+1, k], [n, k+1]]
-        if k == L-1 :
-            return [[n, k-1], [n+1, k-1], [n+1, k]]
-        return [[n, k-1], [n, k+1], [n+1, k-1], [n+1, k]]
-    if n == L-1 :
-        if k == 0:
-            return [[n-1, k], [n-1, k+1], [n, k+1]]
-        if k == L-1 :
-            return [[n-1, k], [n, k-1]]
-        return [[n-1, k], [n-1, k+1], [n, k-1], [n, k+1]]
-    if k == 0:
-        return [[n-1, k], [n+1, k], [n-1, k+1] ,[n, k+1]]
-    if k == L-1 :
-        return [[n-1, k], [n, k-1], [n+1, k-1], [n+1, k]]
-    return [[n-1, k], [n-1, k+1], [n, k-1], [n, k+1], [n+1, k-1], [n+1, k]]
+def estDans(tableau, cellule): #Définis si une cellule est présente dans le tableau
+    abs = cellule[0]
+    ord = cellule[1]
+    l = len(tableau)-1
+    if 0 > abs or abs > l or 0 > ord or ord > l :
+        return False
+    return True
+    
+
+def cellProxy (plateau, cellule): #retourne les cellules autours d'une cellule donnée
+    l = len(plateau)-1
+    n = cellule[0]
+    k = cellule[1]
+    s = []
+    for x in range (n-1, n+2) :
+        for y in range (k-1, k+2):
+            if estDans(plateau, [x,y]) :
+                if [x,y] != [n-1, k-1] and [x,y] != [n+1, k+1] and [x,y] != cellule :
+                    s.append([x,y])
+    return s
+    
+    
 ##Valeur d'une cellule
 
 def valeur(plateau, cellule):
-    return plateau[cellule[0]][cellule[1]]
+    return plateau[cellule[0]][cellule[1]] #retourne la couleur d'une cellule du plateau
 
 ##CellMemeCouleurs
 
-def cellMemeCouleur (plateau, cellule):
+def cellMemeCouleur (plateau, cellule): #retourne les cellules de même couleur autours d'une certaine cellule
     couleur = valeur(plateau, cellule)
-    L = len(plateau)
     sortie = []
-    T = cellProxy(L, cellule)
+    T = cellProxy(plateau, cellule)
     for x in T:
         if valeur(plateau, x) == couleur :
             sortie.append(x)
@@ -45,7 +46,7 @@ def cellMemeCouleur (plateau, cellule):
 
 ##Positions de départ
 
-def posDeparts (plateau, couleur):
+def posDeparts (plateau, couleur): #retourne la liste des cellules de départ pour la recherche d'un chemin
     L = len(plateau[0])
     Sortie = []
     if couleur == ROUGE:
@@ -59,7 +60,7 @@ def posDeparts (plateau, couleur):
     return Sortie
 
 ## Cases valides finales
-def casesArivee (plateau, couleur):
+def casesArivee (plateau, couleur): #retourne la liste des cellules d'arrivée
     Sortie = []
     L = len(plateau)-1
     if couleur == BLEU :
@@ -75,7 +76,7 @@ def casesArivee (plateau, couleur):
 ##pos2 OP
 
 
-def posGagnante(plateau, couleur):
+def posGagnante(plateau, couleur): # retourne si la couleur est gagnante
     L = len(plateau)
     tableau = [ [0 for _ in range (L)] for _ in range (L)]
     for posDepart in posDeparts(plateau, couleur):
@@ -84,7 +85,7 @@ def posGagnante(plateau, couleur):
     return False
         
         
-def __posGagnante (plateau, couleur, tableau, cellule): 
+def __posGagnante (plateau, couleur, tableau, cellule): #initialiste la fonction posGagnante
     L = len(plateau)
     for k in cellMemeCouleur(plateau, cellule):
         if valeur(tableau, k) == 0:

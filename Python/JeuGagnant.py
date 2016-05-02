@@ -67,7 +67,7 @@ def minmax (plateau, couleur):
     
 ##
 
-def premierCoup(T, couleur):
+def premierCoup(T, couleur): #Renvoie le meilleur premier coup
     
     for x in range(len(T)):
         
@@ -137,7 +137,7 @@ def premCaseNonVide (plateau):
     
 ##
 
-def meilleurCoup (plateau, couleur):
+def meilleurCoup (plateau, couleur): #renvoie le meilleur coup
     maxNodesGagnantes = 0
     meilleurePos = premCaseNonVide(plateau)
         
