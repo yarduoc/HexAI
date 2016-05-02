@@ -6,5 +6,5 @@
 *.swp
 *.swo
 
-#CPython
-*pyc
+#Python
+*/__pycache__/
