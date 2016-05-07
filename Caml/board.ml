@@ -4,7 +4,7 @@ type color = Red | Blue | Empty;;
 
 let genBoard size =
     let board = make_vect size [||] in
-    for i = 0 to size do
+    for i = 0 to size - 1 do
         board.(i) <- make_vect size Empty
     done;
     board
