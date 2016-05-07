@@ -1,81 +1,81 @@
-let rec filter prd lst =
-    (* Renvoie la liste des élément verifiant le predicat `prd`*)
+let rec filter predicat lst =
+    (* Renvoie la liste des élément verifiant le predicat `predicat`*)
     match lst with
         | [] -> []
-        | x::rlst when prd x -> x::(filter prd rlst)
-        | _::rlst -> (filter prd rlst)
+        | x::rlst when predicat x -> x::(filter predicat rlst)
+        | _::rlst -> (filter predicat rlst)
 ;;
 
 let renverser lst =
-    let rec aux lst sor =
+    let rec aux lst sortie =
         match lst with
-            | [] -> sor
-            | x::rlst -> aux rlst (x::sor)
+            | [] -> sortie
+            | x::rlst -> aux rlst (x::sortie)
     in
     aux lst []
 ;;
 
 let map f lst =
     (* Applique f à tout les élément de la liste *)
-    let rec aux f lst sor =
+    let rec aux f lst sortie =
         match lst with
-            | [] -> sor
-            | x::rlst -> (aux f rlst ((f x)::sor))
+            | [] -> sortie
+            | x::rlst -> (aux f rlst ((f x)::sortie))
     in
     renverser (aux f lst [])
 ;;
 
 
-let rec list_it f a lst =
+let rec reduce f a lst =
     (* Si lst = [a1; ... an], renvoit f( a1 f( ... f( an a) ) ) *)
     match lst with
         | [] -> a
-        | x::rlst -> f x (list_it f a rlst)
+        | x::rlst -> f x (reduce f a rlst)
 ;;
 
-let rec app_suc f a n =
+let rec applicationSuccessive f a n =
     (* renvoit [f^n (a); f^{n - 1} (a); ... ; f^2 (a); f (a); a] *)
     match n with
         | 0 -> [a]
         | n ->
-            let rst_app_suc = app_suc f a (n - 1) in
-            (f (hd rst_app_suc))::rst_app_suc
+            let reste_app_successive = applicationSuccessive f a (n - 1) in
+            (f (hd reste_app_successive))::reste_app_successive
 ;;
 
-let rec any prd lst =
+let rec any predicat lst =
     match lst with
         | [] -> false
-        | x::rlst -> (prd x) || (any prd rlst)
+        | x::rlst -> (predicat x) || (any predicat rlst)
 ;;
 
-let rec is_in lst x =
+let rec isIn lst x =
     match lst with
         | [] -> false
         | elm::rlst when x = elm -> true
-        | _::rlst -> is_in rlst x
+        | _::rlst -> isIn rlst x
 ;;
 
-let rec find_if prd default lst =
-    (* Renvoie le premier élément verifiant `prd` ou default si aucun *)
+let rec findIf predicat default lst =
+    (* Renvoie le premier élément verifiant `predicat` ou `default` si aucun *)
     match lst with
         | [] -> default
-        | x::rlst when prd x -> x
-        | _::rlst -> find_if prd default rlst
+        | x::rlst when predicat x -> x
+        | _::rlst -> findIf predicat default rlst
 ;;
 
-let rec im_and_ant f lst =
+let rec getImagesAndAntecedants f lst =
     match lst with
         | [] -> []
-        | x::rlst -> (f x, x)::(im_and_ant f rlst)
+        | x::rlst -> (f x, x)::(getImagesAndAntecedants f rlst)
 ;;
 
-let rec max grtr lst =
-    (* Renvoie le maximum de tel que {a > b <=> grtr a b} *)
-    let rec aux cmax lst =
+let rec max isGreater lst =
+    (* Renvoie le maximum de tel que {a > b <=> isGreater a b} *)
+    let rec aux current_max lst =
         match lst with
-            | [] -> cmax
-            | x::rlst when grtr x cmax -> aux x rlst
-            | _::rlst -> aux cmax rlst
+            | [] -> current_max
+            | x::rlst when isGreater x current_max -> aux x rlst
+            | _::rlst -> aux current_max rlst
     in
     match lst with
         | [] -> raise (Failure "Empty list has no max")

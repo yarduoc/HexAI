@@ -1,53 +1,56 @@
 #open "hextile";;
 
 type color = Red | Blue | Empty;;
-type board = {size:int; tiles:color vect vect};;
 
-let other_color color =
+let getBoardSize board =
+    vect_length board
+;;
+
+let getOtherColor color =
     match color with
         | Red -> Blue
         | Blue -> Red
         | _ -> raise (Failure "Empty does not have an opposite color")
 ;;
 
-let is_on_board board tile = 
-    tile.x >= 0 && tile.x < board.size 
-    && tile.y >= 0 && tile.y < board.size
+let isOnBoard board tile = 
+    tile.x >= 0 && tile.x < getBoardSize board 
+    && tile.y >= 0 && tile.y < getBoardSize board
 ;;
 
-let set_tile_color board color tile =
-    board.tiles.(tile.x).(tile.y) <- color;
-    board;;
+let setTileColor board color tile =
+    board.(tile.x).(tile.y) <- color;
+    board
+;;
 
-let tile_color board tile = board.tiles.(tile.x).(tile.y);;
+let getTileColor board tile =
+    board.(tile.x).(tile.y)
+;;
 
-let is_color board color tile = (color = (tile_color board tile));;
+let isColor board color tile =
+    color = getTileColor board tile
+;;
 
 
-let tile_of_color board color =
+let getTilesOfColor board color =
     (* Renvoie la liste des coordonée des case de couleur `color` sur
         le plateau `board` *)
     let rec aux tile =
+        (* Itère sur chaque case du plateau *)
         match tile with
             | {x=(-1); y=_} -> []
-            | {x=n; y=(-1)} -> aux {x=(n - 1); y=(board.size - 1)}
-            | {x=xn; y=yn} when is_color board color tile ->
+            | {x=n; y=(-1)} -> aux {x=(n - 1); y=(getBoardSize board - 1)}
+            | {x=xn; y=yn} when isColor board color tile ->
                 tile::(aux {x=xn; y=(yn - 1)})
             | {x=xn; y=yn} -> aux {x=xn; y=(yn - 1)}
     in
-    aux {x=(board.size - 1); y=(board.size - 1)}
+    aux {x=(getBoardSize board - 1); y=(getBoardSize board - 1)}
 ;;
 
-let is_full board =
-    match (tile_of_color board Empty) with
-        | [] -> true
-        | _ -> false
-;;
-
-let print_board board =
-    for i = 0 to board.size - 1  do
-        for j = 0 to board.size - 1 do
-            match board.tiles.(i).(j) with
+let printBoard board =
+    for i = 0 to getBoardSize board - 1  do
+        for j = 0 to getBoardSize board - 1 do
+            match board.(i).(j) with
                 | Blue -> print_string "Blue  "
                 | Red -> print_string "Red   "
                 | Empty -> print_string "Empty ";

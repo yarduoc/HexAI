@@ -8,9 +8,8 @@
     suite de case de même couleur*)
 let winOnBoard board color =
     (* Indique si `color` a gagné sur `board` *)
-    let isNextToEndSide = is_end_tile board color in
-    (* fonction qui indique si une case est une case de fin *)
-    let isConnectedToEndSide = (isConnectedToEnd (color_ngh_tiles board) isNextToEndSide) in
+    let isConnectedToEndSide = 
+        isConnectedToEnd (getSameColorNeighbourTiles board) (isNextToEndSide board color) in
     (* fonction indique si une case est connectée à une case de fin *)
     let filled_start_tiles = filter (isColor board color) (getColorStartTiles board color) in
     any isConnectedToEndSide filled_start_tiles
@@ -20,7 +19,7 @@ let winner board = findIf (winOnBoard board) Empty [Red; Blue];;
     (* Indique qui a gagné sur le plateau `board`, si personne n'a gagnée
         renvoie `Empty`*)
 
-let rec isGoodBoardFor board will_play=
+let rec getWinningPlayer board will_play=
     (* Indique si une position du plateau `board` est bonne pour le joueur
         `will_play` qui va jouer *)
     let empty_tiles = getTilesOfColor board Empty in
@@ -32,9 +31,9 @@ let rec isGoodBoardFor board will_play=
 and isWinningPlay board color tile =
     (* Renvoie si le la case `tile` est un bon coup pour le joueur
         `color` sur le plateau `board` *)
-    let board_after_play = set_tile_color board color tile in
+    let board_after_play = setTileColor board color tile in
     let next_player = getOtherColor color in
-    let is_winning_play = (isGoodBoardFor next_board next_player) = color in
+    let is_winning_play = getWinningPlayer board_after_play next_player = color in
     setTileColor board Empty tile;
     is_winning_play
 ;;
@@ -43,7 +42,7 @@ let getWinningPlay board color =
     (* Renvoie le coup à jouer sur le plateau `board` pour le joueur
         `color` *)
     let empty_tiles = getTilesOfColor board Empty in
-    find_if (isWinningPlay board color) (hd empty_tiles) empty_tiles
+    findIf (isWinningPlay board color) (hd empty_tiles) empty_tiles
 ;;
 
 (* La valeur d'un plateau est `(r, b, w)` ou `r` est le nombre de
@@ -73,7 +72,7 @@ let rec getBoardValue board will_play=
                     | Empty -> raise (Failure "There should at least be one winner")
             end
         | lst -> 
-            let after_play_values = map (getBoardValueAfterPlay board will_play) empty_tile in
+            let after_play_values = map (getBoardValueAfterPlay board will_play) empty_tiles in
             (* liste des valeurs des plateaux ateignable depuis le
                 plateau `board` *)
             reduce (addBoardsValue will_play) (0, 0, getOtherColor will_play) after_play_values
@@ -84,7 +83,7 @@ and getBoardValueAfterPlay board playing tile =
     setTileColor board playing tile;
     let after_play_value = (getBoardValue board (getOtherColor playing)) in
     setTileColor board Empty tile;
-    next_board_value
+    after_play_value
 ;;
 
 let isBetterFor color v1 v2 =
