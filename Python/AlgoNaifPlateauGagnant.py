@@ -47,7 +47,7 @@ def cellMemeCouleur (plateau, cellule): #retourne les cellules de même couleur 
 ##Positions de départ
 
 def posDeparts (plateau, couleur): #retourne la liste des cellules de départ pour la recherche d'un chemin
-    L = len(plateau[0])
+    L = len(plateau)
     Sortie = []
     if couleur == ROUGE:
         for k in range (L):
@@ -80,6 +80,7 @@ def posGagnante(plateau, couleur): # retourne si la couleur est gagnante
     L = len(plateau)
     tableau = [ [0 for _ in range (L)] for _ in range (L)]
     for posDepart in posDeparts(plateau, couleur):
+        #On regarde pour chaque position de départ s'il y a un chemin pour la relier à une position finale
         if __posGagnante(plateau, couleur, tableau, posDepart):
             return True
     return False
@@ -98,7 +99,8 @@ def __posGagnante (plateau, couleur, tableau, cellule): #initialiste la fonction
 
         
 
-## générer plateau 
+## fonctions pratiques
+
 Plateau=[ [ 0 for _ in range (11)] for _ in range (11)]
 from random import randint
 
@@ -120,6 +122,6 @@ for _ in range (121):
         if Plateau[x][y]== VIDE :
             libre=True
             Plateau[x][y]=couleurbis
-            
+
 def a(x,y,table,couleur=BLEU):
     table[x][y]=couleur
