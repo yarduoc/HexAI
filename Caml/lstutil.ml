@@ -25,7 +25,6 @@ let map f lst =
     renverser (aux f lst [])
 ;;
 
-
 let rec reduce f a lst =
     (* Si lst = [a1; ... an], renvoit f( a1 f( ... f( an a) ) ) *)
     match lst with

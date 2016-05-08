@@ -50,6 +50,14 @@ let getWinningPlay board color =
     même mais pour bleu et `w` la personne qui gagne si elle jout
     parfaitement en partant du plateau *)
 
+let getFullBoardValue board = 
+    let winner_of_board = winner board in
+    match winner_of_board with
+        | Blue -> (0, 1, Blue)
+        | Red -> (1, 0, Red)
+        | Empty -> raise (Failure "The board is not valid or not full")
+;;
+
 let addBoardsValue has_played v1 v2 =
     match v1, v2 with
         | (r1, b1, w1), (r2, b2, w2) when w1 <> w2 ->
@@ -57,31 +65,24 @@ let addBoardsValue has_played v1 v2 =
         | (r1, b1, _), (r2, b2, _) -> 
             (r1 + r2, b1 + b2, getOtherColor has_played)
 ;;
-    
+
 let rec getBoardValue board will_play=
     (*Renvoie la valeur du plateau `board` sachant que le joueur
         `will_play` va jouer*)
     let empty_tiles = getTilesOfColor board Empty in
     match empty_tiles with
-        | [] -> 
-            let winner_of_board = winner board in
-            begin
-                match winner_of_board with
-                    | Blue -> (0, 1, Blue)
-                    | Red -> (1, 0, Red)
-                    | Empty -> raise (Failure "There should at least be one winner")
-            end
+        | [] -> getFullBoardValue board
         | lst -> 
             let after_play_values = map (getBoardValueAfterPlay board will_play) empty_tiles in
             (* liste des valeurs des plateaux ateignable depuis le
                 plateau `board` *)
             reduce (addBoardsValue will_play) (0, 0, getOtherColor will_play) after_play_values
              
-and getBoardValueAfterPlay board playing tile =
+and getBoardValueAfterPlay board playing_color tile =
     (* Renvoie la valeur du tableau obtenue en faisant joué `color`
         sur la case `tile` sur le plateau `board` *)
-    setTileColor board playing tile;
-    let after_play_value = (getBoardValue board (getOtherColor playing)) in
+    setTileColor board playing_color tile;
+    let after_play_value = (getBoardValue board (getOtherColor playing_color)) in
     setTileColor board Empty tile;
     after_play_value
 ;;
@@ -100,3 +101,4 @@ let getBestPlay board color =
     let empty_tiles = getTilesOfColor board Empty in
     snd (max (isBetterFor color) (getImagesAndAntecedants (getBoardValueAfterPlay board color) empty_tiles))
 ;;
+    
