@@ -2,20 +2,11 @@
 
 type color = Red | Blue | Empty;;
 
-let getBoardSize board =
-    vect_length board
-;;
-
 let getOtherColor color =
     match color with
         | Red -> Blue
         | Blue -> Red
         | _ -> raise (Failure "Empty does not have an opposite color")
-;;
-
-let isOnBoard board tile = 
-    tile.x >= 0 && tile.x < getBoardSize board 
-    && tile.y >= 0 && tile.y < getBoardSize board
 ;;
 
 let setTileColor board color tile =
@@ -31,6 +22,9 @@ let isColor board color tile =
     color = getTileColor board tile
 ;;
 
+let getBoardSize board =
+    vect_length board
+;;
 
 let getTilesOfColor board color =
     (* Renvoie la liste des coordonée des case de couleur `color` sur
@@ -46,6 +40,13 @@ let getTilesOfColor board color =
     in
     aux {x=(getBoardSize board - 1); y=(getBoardSize board - 1)}
 ;;
+
+
+let isOnBoard board tile = 
+    tile.x >= 0 && tile.x < getBoardSize board 
+    && tile.y >= 0 && tile.y < getBoardSize board
+;;
+
 
 let printBoard board =
     for i = 0 to getBoardSize board - 1  do

@@ -1,35 +1,46 @@
-DEBUG =
+OPTIONS =
 OBJECTS = hextile.zo lstutil.zo graph.zo board.zo hex.zo player.zo hextest.zo 
+CODE = hextile.ml lstutil.ml graph.ml board.ml hex.ml player.ml hextest.ml 
 INTERFACE = hextile.zi lstutil.zi graph.zi hex.zi hextest.zi board.zi player.zi
 TARGET = hextest
+DEBUG_SUFFIX = -debug
 
 all: hextest
 
+
+debug: OPTIONS := $(OPTIONS) -g
+debug: TARGET := $(TARGET)$(DEBUG_SUFFIX)
+debug: all
+
+
 $(TARGET): $(OBJECTS)
-	camlc -o hextest $(OBJECTS)
+	camlc -o $(TARGET) $(OBJECTS)
 
-hextest.zo hextest.zi: hextest.ml hex.zi player.zi board.zi hextile.zi
-	camlc $(DEBUG) -c hextest.ml
 
-player.zo player.zi: player.ml hex.zi board.zi lstutil.zi graph.zi hextile.zi
-	camlc $(DEBUG) -c player.ml
+hextest.zo hextest.zi : hextest.ml hex.zi player.zi board.zi hextile.zi 
+	camlc $(OPTIONS) -c hextest.ml
 
-hex.zo hex.zi: hex.ml graph.zi hextile.zi lstutil.zi board.zi
-	camlc $(DEBUG) -c  hex.ml
+player.zo player.zi : player.ml hex.zi board.zi lstutil.zi graph.zi hextile.zi
+	camlc $(OPTIONS) -c player.ml
 
-graph.zo graph.zi: graph.ml lstutil.zi
-	camlc $(DEBUG) -c graph.ml
+hex.zo hex.zi : hex.ml hex.zi hextile.zi lstutil.zi board.zi
+	camlc $(OPTIONS) -c  hex.ml
 
-hextile.zo hextile.zi: hextile.ml
-	camlc $(DEBUG) -c hextile.ml
+graph.zo graph.zi : graph.ml lstutil.zi
+	camlc $(OPTIONS) -c graph.ml
 
-lstutil.zo lstutil.zi: lstutil.ml
-	camlc $(DEBUG) -c lstutil.ml
+hextile.zo hextile.zi : hextile.ml 
+	camlc $(OPTIONS) -c hextile.ml
 
-board.zo board.zi: hextile.zi board.ml
-	camlc $(DEBUG) -c board.ml
+lstutil.zo lstutil.zi : lstutil.ml 
+	camlc $(OPTIONS) -c lstutil.ml
+
+board.zo board.zi : board.ml board.zi 
+	camlc $(OPTIONS) -c board.ml
+
 
 clean:
-	rm $(OBJECTS)
-	rm $(INTERFACE)
-	rm $(TARGET)
+	rm -f $(OBJECTS)
+	rm -f $(INTERFACE)
+	rm -f $(TARGET)
+	rm -f $(TARGET)$(DEBUG_SUFFIX)
