@@ -1,6 +1,6 @@
 ##
 import os
-os.chdir('C:\\Users\\Tibo\\Documents\\MPSI Info\\TIPE\\PYTHON')
+os.chdir('C:\\Users\\Tibo\\Documents\\MPSI Info\\TIPE\\TIPE_2017\\Python')
 
 import AlgoNaifPlateauGagnant
 
