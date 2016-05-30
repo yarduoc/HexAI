@@ -43,6 +43,16 @@ def cellMemeCouleur (plateau, cellule): #retourne les cellules de même couleur 
         if valeur(plateau, x) == couleur :
             sortie.append(x)
     return sortie
+##Plateau plein
+
+def estPlein (Plateau):
+    
+    n = len(Plateau)
+    for x in range(n):
+        for y in range(n):
+            if Plateau[x][y] == 0 :
+                return False
+    return True
 
 ##Positions de départ
 
@@ -97,7 +107,12 @@ def __posGagnante (plateau, couleur, tableau, cellule): #initialiste la fonction
                 return True
     return False
 
-        
+## couleur Gagnante
+
+def couleurGagnante(plateau):
+    if posGagnante(plateau,BLEU):
+        return BLEU
+    return autreCouleur(ROUGE)
 
 ## fonctions pratiques
 

@@ -1,4 +1,4 @@
-# TIPE_2017
+﻿# TIPE_2017
 
 Problématique
 ============
@@ -13,4 +13,6 @@ A faire
   - Appliquer ces méthodes de façon simple.
   - Définir une classe jeux en Caml pour rendre le code plus clair
   - Commencer à se pencher sur le MCTS
-  
+  - Définir la complexité de l'algo naif rigoureusement
+
+  - algo génétique ?
