@@ -10,6 +10,21 @@ let genBoard size =
     board
 ;;
 
+let getBoardSize board =
+    vect_length board
+;;
+
+let copierPlateau plateau =
+    let taille = (getBoardSize plateau) in
+    let nouveau_plateau = make_vect taille [||] in
+    for i = 0 to taille - 1 do
+        for j = 0 to taille - 1 do
+            nouveau_plateau.(i).(j) <- plateau.(i).(j)
+        done
+    done;
+    nouveau_plateau
+;;
+
 let getOtherColor color =
     match color with
         | Red -> Blue
@@ -30,8 +45,13 @@ let isColor board color tile =
     color = getTileColor board tile
 ;;
 
-let getBoardSize board =
-    vect_length board
+let rec fillBoardWith board color_and_tiles =
+    match color_and_tiles with
+        | [] -> board
+        | color_and_tile::rst_color_and_tiles -> 
+            let board_parially_filled = fillBoardWith board rst_color_and_tiles in
+            let color, tile = color_and_tile in
+            setTileColor board_parially_filled color tile
 ;;
 
 let getTilesOfColor board color =
@@ -55,6 +75,10 @@ let isOnBoard board tile =
     && tile.y >= 0 && tile.y < getBoardSize board
 ;;
 
+
+let isFull board = 
+    getTilesOfColor board Empty = []
+;;
 
 let printBoard board =
     for i = 0 to getBoardSize board - 1  do
