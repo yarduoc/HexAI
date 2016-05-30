@@ -1,5 +1,8 @@
-OBJECTS = hextile.zo lstutil.zo graph.zo board.zo hex.zo player.zo hextest.zo 
-INTERFACE = hextile.zi lstutil.zi graph.zi hex.zi hextest.zi board.zi player.zi
+FILES_NAMES = hextile lstutil graph board hex player hextest 
+INTERFACES = $(addsuffix .zi, $(FILES_NAMES))
+SOURCES = $(addsuffix .ml, $(FILES_NAMES))
+OBJECTS = $(addsuffix .zo, $(FILES_NAMES))
+
 TARGET = hextest
 OPTIONS = 
 DEBUG_SUFFIX = -debug
@@ -18,7 +21,8 @@ $(TARGET): $(OBJECTS)
 hextest.zo hextest.zi: hextest.ml hex.zi player.zi board.zi hextile.zi
 	camlc $(OPTIONS) -c hextest.ml
 
-player.zo player.zi: player.ml hex.zi board.zi lstutil.zi graph.zi hextile.zi
+player.zo player.zi: player.ml hex.zi board.zi lstutil.zi graph.zi \
+		hextile.zi
 	camlc $(OPTIONS) -c player.ml
 
 hex.zo hex.zi: hex.ml graph.zi hextile.zi lstutil.zi board.zi
@@ -38,6 +42,6 @@ board.zo board.zi: hextile.zi board.ml
 
 clean:
 	rm -f $(OBJECTS)
-	rm -f $(INTERFACE)
+	rm -f $(INTERFACES)
 	rm -f $(TARGET)
 	rm -f $(TARGET)$(DEBUG_SUFFIX)

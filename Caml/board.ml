@@ -14,6 +14,17 @@ let getBoardSize board =
     vect_length board
 ;;
 
+let copierPlateau plateau =
+    let taille = (getBoardSize plateau) in
+    let nouveau_plateau = make_vect taille [||] in
+    for i = 0 to taille - 1 do
+        for j = 0 to taille - 1 do
+            nouveau_plateau.(i).(j) <- plateau.(i).(j)
+        done
+    done;
+    nouveau_plateau
+;;
+
 let getOtherColor color =
     match color with
         | Red -> Blue
@@ -39,6 +50,15 @@ let isColor board color tile =
     color = getTileColor board tile
 ;;
 
+let rec fillBoardWith board color_and_tiles =
+    match color_and_tiles with
+        | [] -> board
+        | color_and_tile::rst_color_and_tiles -> 
+            let board_parially_filled = fillBoardWith board rst_color_and_tiles in
+            let color, tile = color_and_tile in
+            setTileColor board_parially_filled color tile
+;;
+
 
 let getTilesOfColor board color =
     (* Renvoie la liste des coordonée des case de couleur `color` sur
@@ -53,6 +73,10 @@ let getTilesOfColor board color =
             | {x=xn; y=yn} -> aux {x=xn; y=(yn - 1)}
     in
     aux {x=(getBoardSize board - 1); y=(getBoardSize board - 1)}
+;;
+
+let isFull board = 
+    getTilesOfColor board Empty = []
 ;;
 
 let printBoard board =
