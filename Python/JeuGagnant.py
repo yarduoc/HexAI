@@ -3,6 +3,7 @@ import os
 os.chdir('C:\\Users\\Tibo\\Documents\\MPSI Info\\TIPE\\TIPE_2017\\Python')
 
 import AlgoNaifPlateauGagnant
+from random import randint
 
 ##Couleurs
 
@@ -11,11 +12,12 @@ BLEU = 1
 ROUGE = 2
 
 ## générer plateau 
-def platGen (c):
+
+def platGen (c): #Fonction pour générer un plateau vide de taille c
     plateau=[ [ 0 for _ in range (c)] for _ in range (c)]
     return plateau
-from random import randint
 
+##
 plateau=platGen(11)
 couleurbis=ROUGE
 
@@ -92,41 +94,72 @@ def premierCoup(T, couleur): #Renvoie le meilleur premier coup
                 
 
 ## J2
+#Renvoie un noeud (ici une liste) composé des informations suivantes : [couleur, nombre de victoires du joueur bleu, nombre de victoires du joueur rouge]
 
-def minimaxPond (plateau, couleur):
+def minimaxPond (plateau, couleur): 
     plein = True
-    valeurNode = [autreCouleur(couleur), 0, 0]
+    valeurNoeud = [autreCouleur(couleur), 0, 0]
     
     
     for x in range (len(plateau[0])):
         
-        for y in range(len(plateau[0])) :
+        for y in range(len(plateau[0])) : 
             
             if plateau[x][y] == VIDE :
                 
                 plateau[x][y] = couleur
                 plein = False
                     
-                littleBigNode = minimaxPond (plateau, autreCouleur(couleur))
+                noeudInt = minimaxPond (plateau, autreCouleur(couleur))
                 
-                valeurNode[1] += littleBigNode[1]
-                valeurNode[2] += littleBigNode[2]
-                if littleBigNode[0] == couleur :
-                    valeurNode[0] = couleur
+                valeurNoeud[1] += noeudInt[1]
+                valeurNoeud[2] += noeudInt[2]
+                
+                if noeudInt[0] == couleur :
+                    valeurNoeud[0] = couleur
                     
                 plateau[x][y] = VIDE
                 
     if posGagnante(plateau, couleur) and plein :
+        
         L = [couleur, 0, 0]
         L[couleur] = 1
         return L
+        
     elif plein :
         L = [autreCouleur(couleur), 0, 0]
         L[autreCouleur(couleur)] = 1
+        
         return L
-    return valeurNode
+        
+    return valeurNoeud
     
     
+def meilleurCoupPond (plateau, couleur):
+    
+    coupJouables = []
+    chancesVictoire = []
+    
+    for x in range (len(plateau)):
+        for y in range(len(plateau)):
+            
+            if plateau[x][y] == 0:
+                
+                coupJouables.append([x,y])
+                plateau[x][y] = couleur
+                noeudJeu = minimaxPond(plateau, autreCouleur(couleur))
+                chancesVictoire.append(noeudJeu[couleur])
+                plateau[x][y] = VIDE
+                
+    plusGrandesVict = chancesVictoire[0]
+    meilleurCoup = coupJouables[0]
+    
+    for k in range (len(chancesVictoire)):
+        if chancesVictoire[k] > plusGrandesVict :
+            plusGrandesVict = chancesVictoire[k]
+            meilleurCoup = coupJouables[k]
+            
+    return meilleurCoup
 ##
 
 def premCaseNonVide (plateau):
@@ -157,7 +190,7 @@ def meilleurCoup (plateau, couleur): #renvoie le meilleur coup
                 
  ## platgen
     
-T = platGen(3)
+T = platGen(5)
 
 Y = platGen(3)
 

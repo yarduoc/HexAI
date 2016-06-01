@@ -1,5 +1,5 @@
 ##Couleurs
-
+# On prend comme convention 0 pour une case vide, 1 pour une case occupée par le joueur bleu,  et 2 pour une case occupée par le joueur rouge.
 VIDE = 0
 BLEU = 1
 ROUGE = 2
@@ -31,11 +31,11 @@ def cellProxy (plateau, cellule): #retourne les cellules autours d'une cellule d
 ##Valeur d'une cellule
 
 def valeur(plateau, cellule):
-    return plateau[cellule[0]][cellule[1]] #retourne la couleur d'une cellule du plateau
+    return plateau[cellule[0]][cellule[1]]  #retourne la couleur d'une cellule du plateau
 
 ##CellMemeCouleurs
 
-def cellMemeCouleur (plateau, cellule): #retourne les cellules de même couleur autours d'une certaine cellule
+def cellMemeCouleur (plateau, cellule):  #retourne les cellules de même couleur autours d'une certaine cellule
     couleur = valeur(plateau, cellule)
     sortie = []
     T = cellProxy(plateau, cellule)
@@ -45,7 +45,7 @@ def cellMemeCouleur (plateau, cellule): #retourne les cellules de même couleur 
     return sortie
 ##Plateau plein
 
-def estPlein (Plateau):
+def estPlein (Plateau): #Renvoie un booléen selon si le plateau est plein ou non
     
     n = len(Plateau)
     for x in range(n):
@@ -70,6 +70,7 @@ def posDeparts (plateau, couleur): #retourne la liste des cellules de départ po
     return Sortie
 
 ## Cases valides finales
+
 def casesArivee (plateau, couleur): #retourne la liste des cellules d'arrivée
     Sortie = []
     L = len(plateau)-1
@@ -84,7 +85,6 @@ def casesArivee (plateau, couleur): #retourne la liste des cellules d'arrivée
     return Sortie
 
 ##pos2 OP
-
 
 def posGagnante(plateau, couleur): # retourne si la couleur est gagnante
     L = len(plateau)
@@ -109,7 +109,7 @@ def __posGagnante (plateau, couleur, tableau, cellule): #initialiste la fonction
 
 ## couleur Gagnante
 
-def couleurGagnante(plateau):
+def couleurGagnante(plateau): #Définis si une couleur donnée est gagnante sur le plateau
     if posGagnante(plateau,BLEU):
         return BLEU
     return autreCouleur(ROUGE)
