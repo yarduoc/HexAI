@@ -1,3 +1,9 @@
+let rec list_length lst =
+    match lst with
+        | [] -> 0
+        | _::rlst -> 1 + list_length rlst
+;;
+
 let rec filter predicat lst =
     (* Renvoie la liste des élément verifiant le predicat `predicat`*)
     match lst with
@@ -79,4 +85,18 @@ let rec max isGreater lst =
     match lst with
         | [] -> raise (Failure "Empty list has no max")
         | x::rlst -> aux x rlst
+;;
+
+let rec avoirNEmeElement lst n =
+        match n, lst with
+            | _, [] -> raise (Failure "Out Of Bound")
+            | 0, elm::_ -> elm
+            | n, _::rlst -> avoirNEmeElement rlst (n - 1)
+;;
+
+let rec supprimer liste valeur =
+    match liste with
+        | [] -> []
+        | element::reste_liste when element = valeur -> reste_liste
+        | element::reste_liste -> element::(supprimer reste_liste valeur)
 ;;
