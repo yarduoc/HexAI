@@ -2,13 +2,17 @@
 #open "board";;
 #open "hextile";;
 #open "player";;
+#open "testutil";;
+#open "randomutil";;
 
 
-let main () = 
-	let board = genBoard 3 in
-    printTile (getBestPlay board Blue)
+let main () =
+    initierAleatoire ();
+    let plateau = genererPlateauAleatoireComplet  5 in
+    printBoard plateau;
+    afficherCouleur (winner plateau)
 ;;
-	
+
 printexc__f main ();;
 
 exit 0;;

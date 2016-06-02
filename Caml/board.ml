@@ -48,7 +48,7 @@ let isColor board color tile =
 let rec fillBoardWith board color_and_tiles =
     match color_and_tiles with
         | [] -> board
-        | color_and_tile::rst_color_and_tiles -> 
+        | color_and_tile::rst_color_and_tiles ->
             let board_parially_filled = fillBoardWith board rst_color_and_tiles in
             let color, tile = color_and_tile in
             setTileColor board_parially_filled color tile
@@ -70,13 +70,13 @@ let getTilesOfColor board color =
 ;;
 
 
-let isOnBoard board tile = 
-    tile.x >= 0 && tile.x < getBoardSize board 
+let isOnBoard board tile =
+    tile.x >= 0 && tile.x < getBoardSize board
     && tile.y >= 0 && tile.y < getBoardSize board
 ;;
 
 
-let isFull board = 
+let isFull board =
     getTilesOfColor board Empty = []
 ;;
 
@@ -90,4 +90,11 @@ let printBoard board =
         done;
         print_newline ()
     done
+;;
+
+let afficherCouleur couleur =
+    match couleur with
+        | Blue -> print_string "Blue"
+        | Red -> print_string "Red"
+        | Empty -> print_string "Empty"
 ;;

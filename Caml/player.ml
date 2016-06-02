@@ -8,7 +8,7 @@
     suite de case de même couleur*)
 let winOnBoard board color =
     (* Indique si `color` a gagné sur `board` *)
-    let isConnectedToEndSide = 
+    let isConnectedToEndSide =
         isConnectedToEnd (getSameColorNeighbourTiles board) (isNextToEndSide board color) in
     (* fonction indique si une case est connectée à une case de fin *)
     let filled_start_tiles = filter (isColor board color) (getColorStartTiles board color) in
@@ -27,7 +27,7 @@ let rec getWinningPlayer board will_play=
         | [] -> winner board
         | lst when any (isWinningPlay board will_play) lst -> will_play
         | _ -> getOtherColor will_play
-             
+
 and isWinningPlay board color tile =
     (* Renvoie si le la case `tile` est un bon coup pour le joueur
         `color` sur le plateau `board` *)
@@ -37,7 +37,7 @@ and isWinningPlay board color tile =
     setTileColor board Empty tile;
     is_winning_play
 ;;
-        
+
 let getWinningPlay board color =
     (* Renvoie le coup à jouer sur le plateau `board` pour le joueur
         `color` *)
@@ -50,7 +50,7 @@ let getWinningPlay board color =
     même mais pour bleu et `w` la personne qui gagne si elle jout
     parfaitement en partant du plateau *)
 
-let getFullBoardValue board = 
+let getFullBoardValue board =
     let winner_of_board = winner board in
     match winner_of_board with
         | Blue -> (0, 1, Blue)
@@ -62,7 +62,7 @@ let addBoardsValue has_played v1 v2 =
     match v1, v2 with
         | (r1, b1, w1), (r2, b2, w2) when w1 <> w2 ->
             (r1 + r2, b1 + b2, has_played)
-        | (r1, b1, _), (r2, b2, _) -> 
+        | (r1, b1, _), (r2, b2, _) ->
             (r1 + r2, b1 + b2, getOtherColor has_played)
 ;;
 
@@ -72,12 +72,12 @@ let rec getBoardValue board will_play=
     let empty_tiles = getTilesOfColor board Empty in
     match empty_tiles with
         | [] -> getFullBoardValue board
-        | lst -> 
+        | lst ->
             let after_play_values = map (getBoardValueAfterPlay board will_play) empty_tiles in
             (* liste des valeurs des plateaux ateignable depuis le
                 plateau `board` *)
             reduce (addBoardsValue will_play) (0, 0, getOtherColor will_play) after_play_values
-             
+
 and getBoardValueAfterPlay board playing_color tile =
     (* Renvoie la valeur du tableau obtenue en faisant joué `color`
         sur la case `tile` sur le plateau `board` *)
@@ -101,4 +101,4 @@ let getBestPlay board color =
     let empty_tiles = getTilesOfColor board Empty in
     snd (max (isBetterFor color) (getImagesAndAntecedants (getBoardValueAfterPlay board color) empty_tiles))
 ;;
-    
+
