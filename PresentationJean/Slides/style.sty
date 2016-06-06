@@ -1,0 +1,18 @@
+
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
+\usepackage{havannah}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{trees}
+\usepackage{amsmath}
+
+\frenchspacing
+
+\tikzset{
+  invisible/.style={opacity=0},
+  visible on/.style={alt={#1{}{invisible}}},
+  alt/.code args={<#1>#2#3}{%
+    \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+  },
+}
