@@ -1,6 +1,5 @@
 # Complexite
 
-
 ## MiniMax
 
 fichier `player.ml`
@@ -55,7 +54,7 @@ de cases déjà testé ainsi on a la compléxité pour un noeud qui est de
 `O(k)` où `k` sont les noeuds déjà testé.
 
 Ainsi on a la compléxité temporel de la nouvelle version:
-`T(taille) = sum^{taille^2}_{k = 1} k + O(n^2) = O(taille^4)`
+`T(taille) = sum^{taille^2}_{k = 1} k = O(taille^3)`
 
 #### Conclusion
 
@@ -70,3 +69,56 @@ Les cases de départ étant sur tout le long d'un seul coté on a
 
 Ainsi on a simplement la compléxité de `winner` qui est
 `O(taille^5)`
+
+#### Amélioration
+
+Au lieu d'utiliser une liste pour garder les noeuds déjà verifier
+il serait interessant de garder les noeuds dans un vecteur
+pour avoir une verification constante. ce qui donnerait
+`O(taille^2)`
+
+
+### getWinningPlay
+
+#### Calcul
+
+Nous allons chercher la compléxité temporel de `getWinningPlay`
+en fonction du nombre `n` de case vide sur le plateau
+
+On peut representer le travaille de `getWinningPlay` sous la forme
+d'un arbre. calculer la compléxité à la profondeur `p`.
+
+On compte d'apord le nombre de noeuds à la profondeur `p` de l'arbre
+le nombre de noeurs à la profondeur `p` est le nombre de façons de
+joué `p` jetons quelconque sur `n` cases vide, ainsi le nombre d'arrangement
+de `n` cases de taille `p` ainsi `c_p` le nombre de noeurs et
+`A_n^p = n! / (n - p)!`
+
+A chacun de ces noeuds on génére la liste des coups à jouer ce qui prend
+`taille^2` de temps
+
+Ainsi la compléxité à la profondeur p est de `taille^2 n! / (n - p)!`
+
+Il nous suffis à présent de faire la somme sur `p` pour avoir la compléxité
+de `getWinningPlay` i-e `sum_{p = 0}^n taille^2 n! / (n - p)!`
+En majorant `n! / (n - p)!` par `n!` on a une majoration de la compléxité de
+`getWinningPlay`: `O(n taille^2 n!)`
+
+#### Amelioration
+
+Cette compléxité peut être amélioré en évitant de generer une liste à
+chaque profondeur et garder la liste avec le coups joué en moin
+
+Comme supprimer un élément prend `O(n)` ou n est la taille de la liste
+notre somme ressemblerai à `sum_{p = 0}^n (n - p) n! / (n - p)!`
+ce qui nous donnes `sum_{p = 0}^{n - 1} (n! / (n - p - 1)!) + O(1)`
+i-e en faisant une majoration de `n! / (n - p - 1)!` par `n!`
+On a la compléxité de `getWinningPlay` si l'amélioration est faite
+`O(n n! )`
+
+
+### getBestPlay
+
+`getBestPlay` fait exactement la même chose que `getWinningPlay` et la
+même amélioration est faisable sur ce dernier. ainsi on les même
+compléxité.
