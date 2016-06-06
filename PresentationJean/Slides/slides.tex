@@ -2,13 +2,6 @@
 
 \usepackage{style}
 
-\newcommand{\game}{
-  \HStoneGroup[color=white]{
-    a3,a5,b1,b4,b5,c1,c2,d4,d5,e1,e2,e5,c3}
-  \HStoneGroup[color=black]{
-    a2,a4,b2,b3,c4,c5,d1,d2,d3,e3,e4,a1}
-}
-  
 
 \title[Hex]{Le Dévelopement d'un programme joueur}
 \date{T.I.P.E 2014}
@@ -35,113 +28,11 @@
 
 \section{Aproche simple}
 
-\begin{frame}
-  \frametitle{Présentation de l'algorithme Minimax}
-  \include{tex/minimax}
-\end{frame}
+\subsection{Presentation}
+\input{tex/minimax_presentation}
 
-\begin{frame}
-  \frametitle{Compléxité}
-  \begin{itemize}
-    \item $\mathrm{winner}$
-    \item $\mathrm{getWinningPlay}$
-  \end{itemize}
-\end{frame}
+\subsection{Complexité}
+\input{tex/minimax_complexite}
 
-\begin{frame}
-  \frametitle{$\mathrm{winner}$}
-  \begin{HexBoard}[board size=5]
-    \HGame[numbered moves=false]{
-      a1,a2,a3,a4,a5,b2,b1,b4,b3,b5,c3,c1,d3,c2,d4,c4,d5,c5,e1,d1,e2,d2,e5,e3,e4}
-  \end{HexBoard}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Implémentation}
-  \begin{HexBoard}[board size=5]
-    \game{}
-    \HStoneGroup[color=black,label=$\mathcal{V}$]{
-      d1}
-    \HStoneGroup[color=black,label=$\mathcal{A}$]{
-      d2}
-  \end{HexBoard}
-\end{frame}
-
-\begin{frame}
-  \begin{HexBoard}[board size=5]
-    \game{}
-    \HStoneGroup[color=black,label=$\mathcal{V}$]{
-      d1,d2}
-    \HStoneGroup[color=black,label=$\mathcal{A}$]{
-      d3}
-  \end{HexBoard}
-\end{frame}
-
-\begin{frame}
-  \begin{HexBoard}[board size=5]
-    \game{}
-    \HStoneGroup[color=black,label=$\mathcal{V}$]{
-      d1,d2,d3}
-    \HStoneGroup[color=black,label=$\mathcal{A}$]{
-      e3}
-  \end{HexBoard}
-\end{frame}
-
-\begin{frame}
-  \begin{HexBoard}[board size=5]
-    \game{}
-    \HStoneGroup[color=black,label=$\mathcal{V}$]{
-      d1,d2,d3,e3}
-    \HStoneGroup[color=black,label=$\mathcal{A}$]{
-      e4}
-  \end{HexBoard}
-\end{frame}
-
-\begin{frame}
-  \begin{HexBoard}[board size=5]
-    \game{}
-    \HStoneGroup[color=black,label=$\mathcal{V}$]{
-      d1,d2,d3,e3,e4}
-    \HStoneGroup[color=black,label=$\mathcal{A}$]{
-      c4}
-  \end{HexBoard}
-\end{frame}
-
-\begin{frame}
-  \begin{HexBoard}[board size=5]
-    \game{}
-    \HStoneGroup[color=black,label=$\mathcal{V}$]{
-      d1,d2,d3,e3,e4,c4}
-    \HStoneGroup[color=black,label=$\mathcal{A}$]{
-      c5}
-  \end{HexBoard}
-\end{frame}
-
-\begin{frame}
-  \begin{columns}
-    \begin{column}{5cm}
-      \begin{HexBoard}[board size=5,hex height=0.5cm]
-        \HStoneGroup[color=black]{
-          a1,a2,a3,a4,a5,b1,b2,b3,b4,b5,c1,c2}
-        \HStoneGroup[color=white]{
-          c3,c4,c5,d1,d2,d3,d4,d5,e1,e2,e3,e4,e5}
-      \end{HexBoard}
-    \end{column}
-    \begin{column}{5cm}
-    \begin{itemize}
-      \item Compléxité d'un parcours
-      \begin{align*}
-        P(n) &= \sum^{\left\lceil\frac{n^2}{2}\right\rceil}_{k = 1} k \\
-        \implies P(n) &= O\left(\left\lceil\frac{n^2}{2}\right\rceil^2\right) \\
-        \implies P(n) &= O\left(n^4\right)
-      \end{align*}
-      \item Compléxité de $\mathrm{winner}$
-      \[
-        W(n) = n P(n) = O\left(n^5\right)
-      \]
-    \end{itemize}
-    \end{column}
-  \end{columns}
-\end{frame}
 
 \end{document}

@@ -9,6 +9,8 @@
 
 \frenchspacing
 
+\usetheme{Dresden}
+
 \tikzset{
   invisible/.style={opacity=0},
   visible on/.style={alt={#1{}{invisible}}},
@@ -16,3 +18,7 @@
     \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
   },
 }
+
+\newcommand{\func}[1]{$\mathrm{#1}$}
+
+\newcommand{\stoneMark}[1]{$\mathcal{#1}$}
