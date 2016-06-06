@@ -13,11 +13,14 @@ ROUGE = 2
 
 ## générer plateau 
 
-def platGen (c): #Fonction pour générer un plateau vide de taille c
+#Fonction pour générer un plateau vide de taille c
+
+def platGen (c): 
     plateau=[ [ 0 for _ in range (c)] for _ in range (c)]
     return plateau
 
-##
+## génèreun plateau aléatoire
+
 plateau=platGen(11)
 couleurbis=ROUGE
 
@@ -41,17 +44,25 @@ for _ in range (121):
 ##
 
 def autreCouleur (couleur):
+    
     if couleur == BLEU :
+        
         return ROUGE
+        
     return BLEU
 
 ## minimax
 
+#Algorithme permettant, étant donné un plateau, de déterminer, si les deux joueurs jouent aux mieux, quel joueur est certain de gagner
+
 def minimax (plateau, couleur):
+    
     plein = True
+    
     for x in range (len(plateau[0])):
         
         for y in range(len(plateau[0])) :
+            #on lance une boucle pour toutes les cases du plateau afin de tester toutes les issues possibles
             
             if plateau[x][y] == VIDE :
                 
@@ -59,18 +70,24 @@ def minimax (plateau, couleur):
                 plein = False
                     
                 if minimax (plateau, autreCouleur(couleur)) == couleur :
+                    
                     plateau[x][y] = VIDE
+                    
                     return couleur
+                    
                 plateau[x][y] = VIDE
                 
-    if plein and posGagnante(plateau, couleur):
+    if plein and posGagnante(plateau, couleur): 
+        
             return couleur
+            
     return autreCouleur(couleur)
     
 ##
 
-def premierCoup(T, couleur): #Renvoie le meilleur premier coup
-    
+#Permet de déterminer un coup permettant, si le joueur 'couleur' joue la meilleur façon possible, de gagner à coup sûr
+def premierCoup(T, couleur):  
+    a = time()
     for x in range(len(T)):
         
         for y in range(len(T)):
@@ -82,19 +99,26 @@ def premierCoup(T, couleur): #Renvoie le meilleur premier coup
                 if minimax(T,autreCouleur(couleur)) == couleur:
                     
                     T[x][y] = VIDE
+                    b = time()
+                    print(b-a)
                     return [x,y]
                     
                 T[x][y] = VIDE
                 
     for x in range(len(T)) :
+        
         for y in range(len(T)) :
+            
             if T[x][y] == VIDE :
+                b = time()
+                print (b-a)
                 return [x,y]
                 
                 
 
 ## J2
 #Renvoie un noeud (ici une liste) composé des informations suivantes : [couleur, nombre de victoires du joueur bleu, nombre de victoires du joueur rouge]
+#minimaxPond est une fonction récursive : on descend l'arbre de tous les plateaux possibles, et à chaque feuille, on met à jour le noeud intermédiaire selon si le joueur a gagné ou non. On fait ensuite remonter successivement les noeuds jusqu'à arriver à la racine.
 
 def minimaxPond (plateau, couleur): 
     plein = True
@@ -124,12 +148,14 @@ def minimaxPond (plateau, couleur):
         
         L = [couleur, 0, 0]
         L[couleur] = 1
+        
         return L
         
     elif plein :
+        
         L = [autreCouleur(couleur), 0, 0]
         L[autreCouleur(couleur)] = 1
-        
+    
         return L
         
     return valeurNoeud
@@ -141,6 +167,7 @@ def meilleurCoupPond (plateau, couleur):
     chancesVictoire = []
     
     for x in range (len(plateau)):
+        
         for y in range(len(plateau)):
             
             if plateau[x][y] == 0:
@@ -155,34 +182,50 @@ def meilleurCoupPond (plateau, couleur):
     meilleurCoup = coupJouables[0]
     
     for k in range (len(chancesVictoire)):
+        
         if chancesVictoire[k] > plusGrandesVict :
+            
             plusGrandesVict = chancesVictoire[k]
             meilleurCoup = coupJouables[k]
             
     return meilleurCoup
 ##
+#Renvoie la première case non vide
 
 def premCaseNonVide (plateau):
+    
     for x in range (len(plateau)):
+        
         for y in range (len(plateau)):
+            
             if plateau[x][y] == VIDE:
+                
                 return [x, y]
     
 ##
 
-def meilleurCoup (plateau, couleur): #renvoie le meilleur coup
+#renvoie le meilleur coup (coup qui donne au joueur le plus de plateaux gagnants) pour le joueur 'couleur'
+def meilleurCoup (plateau, couleur): 
+
     maxNodesGagnantes = 0
     meilleurePos = premCaseNonVide(plateau)
         
     for x in range (len(plateau)):
+        
         for y in range (len(plateau)):
+            
             if plateau[x][y] == VIDE :
+                
                 plateau[x][y] = couleur
                 Node = minimaxPond(plateau, autreCouleur(couleur))
                 plateau[x][y] = VIDE
+                
                 if Node[0] == couleur :
+                    
                     return [x, y]
+                    
                 if Node[couleur] > maxNodesGagnantes :
+                    
                     maxNodesGagnantes = Node[couleur]
                     meilleurePos = [x,y]
                 

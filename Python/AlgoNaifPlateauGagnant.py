@@ -1,12 +1,13 @@
-##Couleurs
-# On prend comme convention 0 pour une case vide, 1 pour une case occupée par le joueur bleu,  et 2 pour une case occupée par le joueur rouge.
+##Couleurs et joueurs
+
+# On prend comme convention 0 pour une case vide, 1 pour une case occupée par le joueur bleu, et 2 pour une case occupée par le joueur rouge. Par convention, le joueur 1 sera le bleu, et commencera donc, et le joueur 2 sera donc le rouge.
 VIDE = 0
 BLEU = 1
 ROUGE = 2
 
 ##Cases valides autours
-
-def estDans(tableau, cellule): #Définis si une cellule est présente dans le tableau
+#Définis si une cellule est présente dans le tableau
+def estDans(tableau, cellule): 
     abs = cellule[0]
     ord = cellule[1]
     l = len(tableau)-1
@@ -14,8 +15,9 @@ def estDans(tableau, cellule): #Définis si une cellule est présente dans le ta
         return False
     return True
     
+#retourne une liste contenant les cellules autours d'une cellule donnée
 
-def cellProxy (plateau, cellule): #retourne les cellules autours d'une cellule donnée
+def cellProxy (plateau, cellule): 
     l = len(plateau)-1
     n = cellule[0]
     k = cellule[1]
@@ -29,13 +31,15 @@ def cellProxy (plateau, cellule): #retourne les cellules autours d'une cellule d
     
     
 ##Valeur d'une cellule
+#retourne la couleur d'une cellule du plateau
 
 def valeur(plateau, cellule):
-    return plateau[cellule[0]][cellule[1]]  #retourne la couleur d'une cellule du plateau
+    return plateau[cellule[0]][cellule[1]]  
 
 ##CellMemeCouleurs
+#retourne les cellules de même couleur autours d'une certaine cellule
 
-def cellMemeCouleur (plateau, cellule):  #retourne les cellules de même couleur autours d'une certaine cellule
+def cellMemeCouleur (plateau, cellule):  
     couleur = valeur(plateau, cellule)
     sortie = []
     T = cellProxy(plateau, cellule)
@@ -43,9 +47,12 @@ def cellMemeCouleur (plateau, cellule):  #retourne les cellules de même couleur
         if valeur(plateau, x) == couleur :
             sortie.append(x)
     return sortie
+    
+    
 ##Plateau plein
 
-def estPlein (Plateau): #Renvoie un booléen selon si le plateau est plein ou non
+#Renvoie un booléen selon si le plateau est plein ou non
+def estPlein (Plateau): 
     
     n = len(Plateau)
     for x in range(n):
@@ -56,7 +63,9 @@ def estPlein (Plateau): #Renvoie un booléen selon si le plateau est plein ou no
 
 ##Positions de départ
 
-def posDeparts (plateau, couleur): #retourne la liste des cellules de départ pour la recherche d'un chemin
+#retourne la liste des cellules de départ pour la recherche d'un chemin
+
+def posDeparts (plateau, couleur): 
     L = len(plateau)
     Sortie = []
     if couleur == ROUGE:
@@ -71,7 +80,9 @@ def posDeparts (plateau, couleur): #retourne la liste des cellules de départ po
 
 ## Cases valides finales
 
-def casesArivee (plateau, couleur): #retourne la liste des cellules d'arrivée
+#retourne la liste des cellules d'arrivée
+
+def casesArivee (plateau, couleur): 
     Sortie = []
     L = len(plateau)-1
     if couleur == BLEU :
@@ -84,19 +95,11 @@ def casesArivee (plateau, couleur): #retourne la liste des cellules d'arrivée
                 Sortie.append([L,k])
     return Sortie
 
-##pos2 OP
+##Parcours en profondeur
 
-def posGagnante(plateau, couleur): # retourne si la couleur est gagnante
-    L = len(plateau)
-    tableau = [ [0 for _ in range (L)] for _ in range (L)]
-    for posDepart in posDeparts(plateau, couleur):
-        #On regarde pour chaque position de départ s'il y a un chemin pour la relier à une position finale
-        if __posGagnante(plateau, couleur, tableau, posDepart):
-            return True
-    return False
-        
-        
-def __posGagnante (plateau, couleur, tableau, cellule): #initialiste la fonction posGagnante
+#initialiste la fonction posGagnante   
+     
+def __posGagnante (plateau, couleur, tableau, cellule): 
     L = len(plateau)
     for k in cellMemeCouleur(plateau, cellule):
         if valeur(tableau, k) == 0:
@@ -106,37 +109,30 @@ def __posGagnante (plateau, couleur, tableau, cellule): #initialiste la fonction
             if __posGagnante(plateau, couleur, tableau, k):
                 return True
     return False
+    
+    
+# retourne si la couleur 'couleur' est gagnante sur le plateau
+def posGagnante(plateau, couleur): 
+    L = len(plateau)
+    tableau = [ [0 for _ in range (L)] for _ in range (L)]
+    for posDepart in posDeparts(plateau, couleur):
+        
+        #On regarde pour chaque position de départ s'il y a un chemin pour la relier à une position finale
+        
+        if __posGagnante(plateau, couleur, tableau, posDepart):
+            return True
+            
+    return False
+        
+
 
 ## couleur Gagnante
 
-def couleurGagnante(plateau): #Définis si une couleur donnée est gagnante sur le plateau
+#Définis si une couleur donnée est gagnante sur le plateau
+def couleurGagnante(plateau): 
+
     if posGagnante(plateau,BLEU):
-        return BLEU
-    return autreCouleur(ROUGE)
-
-## fonctions pratiques
-
-Plateau=[ [ 0 for _ in range (11)] for _ in range (11)]
-from random import randint
-
-couleurbis=ROUGE
-
-for _ in range (121):
-    libre=False
-     
-    while libre==False :
-         
-        if couleurbis==ROUGE:
-            couleurbis=BLEU
-        else :
-            couleurbis=ROUGE    
         
-        x=randint(0,10)
-        y=randint(0,10)
-         
-        if Plateau[x][y]== VIDE :
-            libre=True
-            Plateau[x][y]=couleurbis
-
-def a(x,y,table,couleur=BLEU):
-    table[x][y]=couleur
+        return BLEU
+        
+    return autreCouleur(ROUGE)
