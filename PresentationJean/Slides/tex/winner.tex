@@ -1,0 +1,79 @@
+\newcommand{\hexGameProcessOnBlack}[2]{
+  \begin{HexBoard}[board size=5]
+    \game{}
+    \HStoneGroup[color=black,label=\verifier]{#1}
+    \HStoneGroup[color=black,label=\estVerifier]{#2}
+  \end{HexBoard}
+}
+
+\newcommand{\hexWorstCase}{
+    \begin{HexBoard}[board size=5,hex height=0.5cm]
+      \HStoneGroup[color=black]{
+        a1,a2,a3,a4,a5,b1,b2,b3,b4,b5,c1,c2}
+      \HStoneGroup[color=white]{
+        c3,c4,c5,d1,d2,d3,d4,d5,e1,e2,e3,e4,e5}
+    \end{HexBoard}
+}
+
+\newcommand{\verifier}{\stoneMark{V}}
+\newcommand{\estVerifier}{\stoneMark{A}}
+
+\begin{frame}
+  \frametitle{\func{winner}}
+  \begin{HexBoard}[board size=5]
+    \game{}
+  \end{HexBoard}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Implémentation}
+  \hexGameProcessOnBlack{d1}{d2}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Implémentation}
+  \hexGameProcessOnBlack{d1,d2}{d3}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Implémentation}
+  \hexGameProcessOnBlack{d1,d2,d3}{e3}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Implémentation}
+  \hexGameProcessOnBlack{d1,d2,d3,e3}{e4}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Implémentation}
+  \hexGameProcessOnBlack{d1,d2,d3,e3,e4}{c4}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Implémentation}
+  \hexGameProcessOnBlack{d1,d2,d3,e3,e4,c4}{c5}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Calcul de la compléxité}
+  \begin{columns}
+    \begin{column}{5cm}
+      \hexWorstCase
+    \end{column}
+    \begin{column}{5cm}
+    \begin{itemize}
+      \item Compléxité d'un parcours
+      \begin{align*}
+        P(n) &= \sum^{\left\lceil\frac{n^2}{2}\right\rceil}_{k = 1} k \\
+        \implies P(n) &= O\left(\left\lceil\frac{n^2}{2}\right\rceil^2\right) \\
+        \implies P(n) &= O\left(n^4\right)
+      \end{align*}
+      \item Compléxité de \func{winner}
+      \[
+        W(n) = n P(n) = O\left(n^5\right)
+      \]
+    \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}

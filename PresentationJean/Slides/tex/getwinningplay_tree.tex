@@ -1,0 +1,18 @@
+\begin{tikzpicture}
+    \tikzstyle{solid node}=[circle,draw,inner sep=1.5,fill=black]
+    \tikzstyle{level 1}=[level distance=20mm,sibling distance=40mm]
+    \tikzstyle{level 2}=[level distance=20mm, sibling distance=20mm]
+    \node(0)[solid node, label=above:{Noir}]{}
+        child{node(1)[solid node]{}
+            child{node(2)[solid node, label=below:{N}]{}}
+            child{node(3)[solid node, label=below:{B}]{}}
+        }
+        child{node(4)[solid node]{}
+            child{node(5)[solid node, label=below:{N}]{}}
+            child{node(6)[solid node, label=below:{N}]{}}
+        }
+        child{node(7){} edge from parent[dashed]};
+    \draw[dashed,rounded corners=7]
+        ($(1)+(-.25,.25)$)rectangle($(4)+(.25,-.25)$);
+    \node at($(1)!.5!(4)$){Blanc};
+\end{tikzpicture}

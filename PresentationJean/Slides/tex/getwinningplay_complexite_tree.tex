@@ -1,0 +1,48 @@
+\newcommand{\enumeratenode}[1]{
+  node{\scriptsize $\cdots #1 \cdots$} 
+  edge from parent[draw=none]
+}
+
+\newcommand{\winnercomplexity}{\footnotesize $W(n)$}
+
+\begin{tikzpicture}
+
+\tikzstyle{level 2}=[sibling distance=12mm]
+
+\node[draw,circle]{$n^2$}
+  child{node[draw,circle]{$n^2$}
+    child{node[draw,circle]{$n^2$}
+      child{node{$\vdots$}
+        child{node[circle,draw]{\winnercomplexity}}
+      }
+    }
+    child{node[draw,circle](g){$n^2$}
+      child{node{$\vdots$}
+        child{node[circle,draw]{\winnercomplexity}}
+      }
+    }
+    child{\enumeratenode{n^2 - 1}}
+    child{node[draw,circle](h){$n^2$}
+      child{node{$\vdots$}
+        child{node[circle,draw]{\winnercomplexity}}
+      }
+    }
+  }
+  child[missing]
+  child{node[draw,circle](a){$n^2$}
+    child{node{$\vdots$}
+      child{node{$\vdots$}
+        child{node[circle,draw]{\winnercomplexity}}
+      }
+    }
+  }
+  child{\enumeratenode{n^2 - 2}}
+  child{node[draw,circle](b){$n^2$}
+    child{node{$\vdots$}
+      child{node{$\vdots$}
+        child{node[circle,draw]{\winnercomplexity}}
+      }
+    }
+  };
+
+\end{tikzpicture}
