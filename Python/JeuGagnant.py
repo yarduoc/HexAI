@@ -117,7 +117,7 @@ def premierCoup(T, couleur):
                 
 
 ## J2
-#Renvoie un noeud (ici une liste) composé des informations suivantes : [couleur, nombre de victoires du joueur bleu, nombre de victoires du joueur rouge]
+#Renvoie un noeud (ici une liste) composé des informations suivantes : [couleur gagnante, nombre de victoires du joueur bleu, nombre de victoires du joueur rouge]
 #minimaxPond est une fonction récursive : on descend l'arbre de tous les plateaux possibles, et à chaque feuille, on met à jour le noeud intermédiaire selon si le joueur a gagné ou non. On fait ensuite remonter successivement les noeuds jusqu'à arriver à la racine.
 
 def minimaxPond (plateau, couleur): 

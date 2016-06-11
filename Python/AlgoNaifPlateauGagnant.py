@@ -102,7 +102,7 @@ def casesArivee (plateau, couleur):
 def __posGagnante (plateau, couleur, tableau, cellule): 
     L = len(plateau)
     for k in cellMemeCouleur(plateau, cellule):
-        if valeur(tableau, k) == 0:
+        if valeur(tableau, k) == 0 :
             tableau[k[0]][k[1]] = 1
             if k in casesArivee(plateau, couleur):
                 return True
