@@ -99,6 +99,7 @@ let getBestPlay board color =
     (* Renvoie le coup à jouer sur le plateau `board` pour le joueur
         `color` *)
     let empty_tiles = getTilesOfColor board Empty in
+    (* Cherche le coups qui amène le joueur au plateau ayant la plus grande valeur *)
     snd (max (isBetterFor color) (getImagesAndAntecedants (getBoardValueAfterPlay board color) empty_tiles))
 ;;
 
