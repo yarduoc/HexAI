@@ -103,38 +103,42 @@ def creerNoeudsFils (noeudP): #Permet de créer tout les noeuds fils d'un noeud 
     for coord in CNV :
         noeudFilsR = noeud(coord, noeudP)
 
-
+#On parcours aléatoirement l'arbre
 def parcoursAleatoire(noeud):
     
     noeud.nbParties += 1
-    
+    #on ajoute 1 aux nombres de parties jouées du noeud
     if not noeud.estFeuille()  :
         
         if noeud.enfants == []:
-            
+            #Si le noeud n'a pas d'enfant, on crée ses enfants
             creerNoeudsFils(noeud)
-        
+        #on sélectionne un enfant au hasard, puis on le fait remonter par une récursion. Si le noeud enfant renvoie false, ce qui veux dire qu'il n'est pas gagnant, alors celui-ci est gagnant, et on lui ajoute donc une victoire.
         if not parcoursAleatoire(noeud.enfants[randint(0,len(noeud.enfants)-1)]) :
             
             noeud.nbVict += 1
             
         
     if noeud.noeudGagnant :
-        
+        #Si le noeud est gagnant, on ajoute 1 à ses victoires, puis on renvoie true, afin de remplir la condition ci dessus
         noeud.nbVict += 1
         return True
-    
+    #Si le noeud est perdant, on n'ajoute rien, et on renvoie, false
     return False
-            
+    
+    
+##
+#On effectue un parcours aléatoir dans l'arbre dans un temps impartit
 
 def simulMeilleurCoupDansTemps (noeud, t):
     
     a = time() + t
-    
+    op = 0
     while a > time() :
         
         parcoursAleatoire(noeud)
-        
+        op += 1
+        #On effectue autant de parcours aléatoires que le temps le permet, afin de simuler le plus de parties possibles, et donc renvoyer un des meilleurs coups possible
     ListeEnfants = noeud.enfants
     
     L = [ -1 for x in ListeEnfants]
@@ -155,7 +159,7 @@ def simulMeilleurCoupDansTemps (noeud, t):
     
     for k in range (len(ListeEnfants)):
         if L[k] == maxListe :
-            return ListeEnfants[k].coord
+            return ListeEnfants[k].coord, op
 ##
 
 
