@@ -1,0 +1,13 @@
+
+Ce dossier contient :
+
+- Les fonctions de base de thibault sous le nom baseHex
+- Le MinMax pondéré sous le nom MinMaxPondéré
+- La méthode aléatoire simili-MCTS avec :
+    -L'objet Node utilisé sous le nom objetAléatoire 
+    -L'implémentation sous le nom methodeAléatoire
+- La méthode MCTS avec :
+    -Les fonctions de base du MCTS sous le nom baseMCTS
+    -Les objets Noeud et EtatDuJeu utilisés sous le nom objetsMCTS
+    -L'implémentation du MCTS avec stockage persistant de l'arbre sous le nom MCTSavecStockage
+    -L'implémentation du MCTS sans stockage persistant de l'arbre sous le nom MCTSsansStockage
