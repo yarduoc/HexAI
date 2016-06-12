@@ -18,6 +18,7 @@ let copierPlateau plateau =
     let taille = (getBoardSize plateau) in
     let nouveau_plateau = make_vect taille [||] in
     for i = 0 to taille - 1 do
+        nouveau_plateau.(i) <- make_vect taille Empty;
         for j = 0 to taille - 1 do
             nouveau_plateau.(i).(j) <- plateau.(i).(j)
         done
@@ -51,7 +52,8 @@ let rec fillBoardWith board color_and_tiles =
         | color_and_tile::rst_color_and_tiles ->
             let board_parially_filled = fillBoardWith board rst_color_and_tiles in
             let color, tile = color_and_tile in
-            setTileColor board_parially_filled color tile
+            setTileColor board_parially_filled color tile;
+            board
 ;;
 
 let getTilesOfColor board color =
@@ -68,6 +70,8 @@ let getTilesOfColor board color =
     in
     aux {x=(getBoardSize board - 1); y=(getBoardSize board - 1)}
 ;;
+
+let avoirCasesJouables board = getTilesOfColor board Empty;;
 
 
 let isOnBoard board tile =

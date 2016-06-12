@@ -1,3 +1,4 @@
+#open "randomutil";;
 #open "hextile";;
 #open "hex";;
 #open "board";;
@@ -103,3 +104,9 @@ let getBestPlay board color =
     snd (max (isBetterFor color) (getImagesAndAntecedants (getBoardValueAfterPlay board color) empty_tiles))
 ;;
 
+let jouerCoupAleatoire plateau joueur =
+    let cases_jouables = avoirCasesJouables plateau in
+    let case_joue = avoirElementAleatoire cases_jouables in
+    setTileColor plateau joueur case_joue
+;;
+    
