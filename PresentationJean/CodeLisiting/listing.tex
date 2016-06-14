@@ -1,0 +1,57 @@
+\documentclass{article}
+
+\usepackage{minted}
+
+\newcommand{\codelist}[3]{
+  \inputminted[
+    linenos,
+    firstline=#1,
+    lastline=#2
+  ]{ocaml}{../../Caml/#3}
+}
+
+
+\begin{document}
+  \appendix
+  \section{\ttfamily new\_mcts.ml}
+  \codelist{1}{34}{new_mcts.ml}
+  \pagebreak
+  \codelist{36}{1000}{new_mcts.ml}
+
+  \section{\ttfamily player.ml}
+  \codelist{1}{19}{player.ml}
+  \pagebreak
+  \codelist{21}{62}{player.ml}
+  \pagebreak
+  \codelist{64}{101}{player.ml}
+  \pagebreak
+  \codelist{103}{1000}{player.ml}
+
+  \section{\ttfamily board.ml}
+  \codelist{1}{15}{board.ml}
+  \pagebreak
+  \codelist{17}{57}{board.ml}
+  \pagebreak
+  \codelist{59}{1000}{board.ml}
+
+  \section{\ttfamily hextile.ml}
+  \codelist{1}{1000}{hextile.ml}
+
+  \section{\ttfamily randomutil.ml}
+  \codelist{1}{1000}{randomutil.ml}
+
+  \section{\ttfamily lstutil.ml}
+  \codelist{1}{13}{lstutil.ml}
+  \pagebreak
+  \codelist{15}{54}{lstutil.ml}
+  \pagebreak
+  \codelist{56}{95}{lstutil.ml}
+  \pagebreak
+  \codelist{97}{1000}{lstutil.ml}
+
+  \section{\ttfamily timeutil.mli}
+  \codelist{1}{1000}{timeutil.mli}
+
+  \section{\ttfamily timeutil.c}
+  \inputminted[linenos,firstline=2]{c}{../../Caml/timeutil.c}
+\end{document}

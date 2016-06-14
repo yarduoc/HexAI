@@ -100,3 +100,10 @@ let rec supprimer liste valeur =
         | element::reste_liste when element = valeur -> reste_liste
         | element::reste_liste -> element::(supprimer reste_liste valeur)
 ;;
+
+let rec appliquerProcedure procedure liste =
+    match liste with
+        | [] -> ()
+        | element::reste_liste ->
+            (procedure element); appliquerProcedure procedure reste_liste
+;;

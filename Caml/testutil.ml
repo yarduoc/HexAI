@@ -15,3 +15,9 @@ let genererPlateauAleatoireComplet size =
     plateau
 ;;
 
+let rec testEntreBorne start avoir_valeur_suivante est_fin func =
+    if est_fin start then
+        []
+    else
+        (start, func start)::(testEntreBorne (avoir_valeur_suivante start) avoir_valeur_suivante est_fin func)
+;;

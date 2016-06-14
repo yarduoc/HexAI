@@ -21,7 +21,7 @@ $(TARGET): $(OBJECTS)
 	camlc $(OPTIONS) -o $(TARGET) $(OBJECTS)
 
 hextest.zo hextest.zi: hextest.ml hex.zi board.zi hextile.zi player.zi \
-		testutil.zi randomutil.zi new_mcts.zi timeutil.zi
+		testutil.zi randomutil.zi new_mcts.zi timeutil.zi lstutil.zi
 	camlc $(OPTIONS) -c hextest.ml
 
 player.zo player.zi: player.ml hex.zi board.zi lstutil.zi graph.zi \

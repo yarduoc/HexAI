@@ -10,9 +10,11 @@
 let winOnBoard board color =
     (* Indique si `color` a gagné sur `board` *)
     let isConnectedToEndSide =
-        isConnectedToEnd (getSameColorNeighbourTiles board) (isNextToEndSide board color) in
+        isConnectedToEnd (getSameColorNeighbourTiles board)
+            (isNextToEndSide board color) in
     (* fonction indique si une case est connectée à une case de fin *)
-    let filled_start_tiles = filter (isColor board color) (getColorStartTiles board color) in
+    let filled_start_tiles = filter (isColor board color)
+        (getColorStartTiles board color) in
     any isConnectedToEndSide filled_start_tiles
 ;;
 
@@ -74,10 +76,12 @@ let rec getBoardValue board will_play=
     match empty_tiles with
         | [] -> getFullBoardValue board
         | lst ->
-            let after_play_values = map (getBoardValueAfterPlay board will_play) empty_tiles in
+            let after_play_values = map (getBoardValueAfterPlay board will_play) 
+                empty_tiles in
             (* liste des valeurs des plateaux ateignable depuis le
                 plateau `board` *)
-            reduce (addBoardsValue will_play) (0, 0, getOtherColor will_play) after_play_values
+            reduce (addBoardsValue will_play) (0, 0, getOtherColor will_play)
+                after_play_values
 
 and getBoardValueAfterPlay board playing_color tile =
     (* Renvoie la valeur du tableau obtenue en faisant joué `color`
@@ -100,8 +104,10 @@ let getBestPlay board color =
     (* Renvoie le coup à jouer sur le plateau `board` pour le joueur
         `color` *)
     let empty_tiles = getTilesOfColor board Empty in
-    (* Cherche le coups qui amène le joueur au plateau ayant la plus grande valeur *)
-    snd (max (isBetterFor color) (getImagesAndAntecedants (getBoardValueAfterPlay board color) empty_tiles))
+    (* Cherche le coups qui amène le joueur au plateau ayant la plus grande
+        valeur *)
+    snd (max (isBetterFor color)
+        (getImagesAndAntecedants (getBoardValueAfterPlay board color) empty_tiles))
 ;;
 
 let jouerCoupAleatoire plateau joueur =
