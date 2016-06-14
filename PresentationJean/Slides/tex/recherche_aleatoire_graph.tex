@@ -1,0 +1,28 @@
+
+\newcommand{\tempTaille}[1][1.0]{
+  \begin{tikzpicture}[scale=#1]
+    \begin{semilogyaxis}[
+      title=Temp d'un teste en fonction de la taille,
+      xlabel={Temp pris par un teste},
+      ylabel={Taille du plateau}
+    ]
+      \addplot[blue] table {data/values_1.dat};
+      \addplot[green] table {data/values_5.dat};
+      \addplot[red] table {data/values_9.dat};
+      \addplot[brown] table {data/values_11.dat};
+    \end{semilogyaxis}
+  \end{tikzpicture}
+}
+
+\newcommand{\tempTailleCarre}[1][1.0]{
+  \begin{tikzpicture}[scale=#1]
+    \begin{semilogyaxis}[
+      title=Temp d'un teste en fonction du carre de la taille,
+      xlabel={Temp pris par un teste},
+      ylabel={Taille du plateau}
+    ]
+      \addplot[blue] table {data/temp_pris_test_carre.dat};
+    \end{semilogyaxis}
+  \end{tikzpicture}
+}
+
