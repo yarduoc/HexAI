@@ -1,9 +1,4 @@
 ##
-import os
-os.chdir('C:\\Users\\Tibo\\Documents\\MPSI Info\\TIPE\\TIPE_2017\\Python')
-
-import JeuGagnant
-
 from random import randint
 from random import random
 from numpy import sqrt
@@ -15,13 +10,13 @@ from time import time
 
 class noeud (object):
     
-    def __init__ (self, coordonnees, parent, estRacine = False, n = -1):
+    def __init__ (self, coordonnees, parent, estRacine = False, n = -1, couleurRacine = BLEU):
         
         self.coord = coordonnees #tuple
         self.parent = parent #noeud
         self.estRacine = estRacine #bool
         self.enfants = [] #Liste de noeuds
-        self.couleur = BLEU 
+        self.couleur = couleurRacine
         self.nbVict = 0 #int
         self.nbParties = 0 #int
         
@@ -80,18 +75,6 @@ class noeud (object):
     
         
     
-##
-
-
-def listeCasesNonVides (Plateau): #renvoie la liste des cases non vides du plateau
-    n = len(Plateau)
-    Sortie = []
-    for x in range(n):
-        for y in range (n):
-            if Plateau[x][y] == 0 :
-                Sortie.append([x,y])
-    return Sortie
-    
 
 
 ##
@@ -127,17 +110,17 @@ def parcoursAleatoire(noeud):
     return False
     
     
+
+    
 ##
 #On effectue un parcours aléatoir dans l'arbre dans un temps impartit
 
 def simulMeilleurCoupDansTemps (noeud, t):
     
     a = time() + t
-    op = 0
     while a > time() :
         
         parcoursAleatoire(noeud)
-        op += 1
         #On effectue autant de parcours aléatoires que le temps le permet, afin de simuler le plus de parties possibles, et donc renvoyer un des meilleurs coups possible
     ListeEnfants = noeud.enfants
     
@@ -159,32 +142,39 @@ def simulMeilleurCoupDansTemps (noeud, t):
     
     for k in range (len(ListeEnfants)):
         if L[k] == maxListe :
-            return ListeEnfants[k].coord, op
+            return ListeEnfants[k].coord
+
+
 ##
 
 
-def creerFils (coupJouesR, coupJouesB, noeudPl):
-
+def creerParents (coupJouesR, coupJouesB, noeudPl):
+        
 
         if coupJouesR == [] and coupJouesB == [] :
             return noeudPl
         couleur = noeudPl.couleur
         if couleur == BLEU :
             
+            
             coord = coupJouesR.pop()
-            noeudF = noeud(coord, noeudPl)
-            return creerParents(coupJouesR, coupJouesB, noeudF)
+            noeudFils = noeud(coord, noeudPl)
+            return creerParents(coupJouesR, coupJouesB, noeudFils)
             
         coord = coupJouesB.pop()
-        noeudF = noeud(coord, noeudPl)
-        return creerParents(coupJouesR, coupJouesB, noeudF)
-
+        noeudFils = noeud(coord, noeudPl)
+        return creerParents(coupJouesR, coupJouesB, noeudFils)
+        
+        
 ##
 
-def jouerOrdi(plateau, temps, couleur = BLEU):
+def jouerOrdi(plateau, temps):
+    
     coupJouesB = []
     coupJouesR = []
+    
     for x in range(len(plateau)):
+        
         for y in range(len(plateau)):
             
             if plateau[x][y] == BLEU :
@@ -192,17 +182,58 @@ def jouerOrdi(plateau, temps, couleur = BLEU):
             
             if plateau[x][y] == ROUGE :
                 coupJouesR.append([x,y])
+                
+    if len(coupJouesR) == len(coupJouesB) :
         
-    noeudActuel = creerFils(coupJouesR, coupJouesB, noeud([], "Racine", True, len(plateau)))
+        couleur = BLEU
+        
+    couleur = ROUGE       
+    
+    
+    noeudActuel = creerParents(coupJouesR, coupJouesB, noeud([], "Racine", True, len(plateau), couleur))
     prochainCoup = simulMeilleurCoupDansTemps ( noeudActuel, temps)
     plateau[prochainCoup[0]][prochainCoup[1]] = noeudActuel.couleur
+
     return prochainCoup
+##
     
+def simulerPartie(taille, tempsBleu, tempsRouge):
     
+    T = platGen(taille)
     
+    while couleurGagnante(T) == False or not estPlein(T) :
+        
+        prochainCoupBleu = jouerOrdi(T, tempsBleu)
+        
+        
+        
+        T[prochainCoupBleu[0]][prochainCoupBleu[1]] = BLEU
+        
+        if not estPlein(T) :
+                
+            prochainCoupRouge = jouerOrdi(T, tempsRouge)
+                
+            T[prochainCoupRouge[0]][prochainCoupRouge[1]] = ROUGE
+                
     
-
-## noe
-noe = noeud([], "rien", True, 11)
-plateau = platGen(4)
-
+    if couleurGagnante(T) == BLEU :
+        return BLEU
+    
+    if couleurGagnante(T) == ROUGE:
+        return ROUGE
+        
+    
+        
+def moyenneVict (taille, tempsBleu, tempsRouge, nombreParties):
+    
+    parties = [0,0,0]
+    
+    for _ in range (nombreParties):
+        
+        parties[simulerPartie(taille, tempsBleu, tempsRouge)] +=1
+        
+    partiesortie = [parties[x] for x in range (1,3)]
+    
+    return partiesortie
+    
+        
