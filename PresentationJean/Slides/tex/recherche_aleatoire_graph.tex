@@ -2,9 +2,10 @@
 \newcommand{\tempTaille}[1][1.0]{
   \begin{tikzpicture}[scale=#1]
     \begin{semilogyaxis}[
-      title=Temp d'un teste en fonction de la taille,
-      xlabel={Temp pris par un teste},
-      ylabel={Taille du plateau}
+      title=Nombres de tests en fonction du temp, 
+      ylabel={Nombre de tests éxécutés},
+      xlabel={Temp en secondes},
+      legend entries={$1$,$5$,$9$,$11$}
     ]
       \addplot[blue] table {data/values_1.dat};
       \addplot[green] table {data/values_5.dat};
@@ -14,15 +15,50 @@
   \end{tikzpicture}
 }
 
-\newcommand{\tempTailleCarre}[1][1.0]{
+\newcommand{\memoireTaille}[1][1.0]{
+  \begin{tikzpicture}[scale=#1]
+    \begin{axis}[
+      title=Mémoire en fonction du temp,
+      ylabel={Mémoire utilisé en mots},
+      xlabel={Temp en secondes},
+      legend entries={$1$,$5$,$9$,$11$}
+    ]
+      \addplot[blue] table {data/mem_values_1.dat};
+      \addplot[green] table {data/mem_values_5.dat};
+      \addplot[red] table {data/mem_values_9.dat};
+      \addplot[brown] table {data/mem_values_11.dat};
+    \end{axis}
+  \end{tikzpicture}
+}
+
+\newcommand{\tempTailleAlex}[1][1.0]{
   \begin{tikzpicture}[scale=#1]
     \begin{semilogyaxis}[
-      title=Temp d'un teste en fonction du carre de la taille,
-      xlabel={Temp pris par un teste},
-      ylabel={Taille du plateau}
+      title=Nombre de tests en fonction du temp,
+      ylabel={Nombre de tests effectués},
+      xlabel={Temp en secondes},
+      xmax=15, ymax=1e+5,
+      legend entries={$3$, $5$, $7$}
     ]
-      \addplot[blue] table {data/temp_pris_test_carre.dat};
+      \addplot[blue] table {data/ListeValeurs3.dat};
+      \addplot[green] table {data/ListeValeurs5.dat};
+      \addplot[red] table {data/ListeValeurs7.dat};
     \end{semilogyaxis}
   \end{tikzpicture}
 }
 
+\newcommand{\tempTailleComp}[1][1.0]{
+  \begin{tikzpicture}[scale=#1]
+    \begin{semilogyaxis}[
+      title=Nombres de tests en fonction du temp, 
+      ylabel={Nombre de tests éxécutés},
+      xlabel={Temp en secondes},
+      xmax=15, ymax=1e+5,
+      legend entries={$3$, $5$, $7$}
+    ]
+      \addplot[blue] table {data/values_3.dat};
+      \addplot[green] table {data/values_5.dat};
+      \addplot[red] table {data/values_7.dat};
+    \end{semilogyaxis}
+  \end{tikzpicture}
+}

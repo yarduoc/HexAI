@@ -7,11 +7,37 @@
 \usetikzlibrary{trees}
 \usepackage{amsmath}
 \usepackage{amsbsy}
+
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.png}
+
+\usepackage{nameref}
+\makeatletter
+\newcommand*{\currentname}{\@currentlabelname}
+\makeatother
+
 \usepackage{pgfplots}
+%\usepgfplotslibrary{external}
+%\tikzexternalize
+\pgfplotsset{compat=1.13}
 
 \frenchspacing
 
 \usetheme{Dresden}
+
+\beamertemplatenavigationsymbolsempty
+
+\AtBeginSection[] {
+  \begin{frame}
+    \sectionpage
+  \end{frame}
+}
+
+\AtBeginSubsection[] {
+  \begin{frame}
+    \begin{center}\Large \color{blue} \currentname \end{center}
+  \end{frame}
+}
 
 \tikzset{
   invisible/.style={opacity=0},
